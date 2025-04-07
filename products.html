@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنتجات - توصيل الفهد</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/logo.png" alt="توصيل الفهد">
+                <h1>توصيل الفهد</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="products.html">المنتجات</a></li>
+                    <li><a href="cart.html">سلة التسوق <span id="cart-count">0</span></a></li>
+                    <li><a href="admin-login.php">تسجيل الدخول</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="products-section">
+        <div class="container">
+            <h2>جميع المنتجات</h2>
+            <div class="filter-section">
+                <input type="text" id="search-input" placeholder="ابحث عن منتج...">
+                <select id="category-filter">
+                    <option value="all">جميع الفئات</option>
+                    <!-- سيتم ملؤها بواسطة JavaScript -->
+                </select>
+            </div>
+            <div class="products-grid" id="all-products">
+                <!-- سيتم ملؤها بواسطة JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-section">
+                <h3>توصيل الفهد</h3>
+                <p>أسرع خدمة توصيل في المنطقة</p>
+            </div>
+            <div class="footer-section">
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="products.html">المنتجات</a></li>
+                    <li><a href="cart.html">سلة التسوق</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>اتصل بنا</h3>
+                <p>هاتف: 0123456789</p>
+                <p>واتساب: 201024713976</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="firebase.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

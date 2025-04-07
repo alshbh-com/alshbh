@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام الطلب - توصيل الفهد</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/logo.png" alt="توصيل الفهد">
+                <h1>توصيل الفهد</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="products.html">المنتجات</a></li>
+                    <li><a href="cart.html">سلة التسوق <span id="cart-count">0</span></a></li>
+                    <li><a href="admin-login.php">تسجيل الدخول</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="checkout-section">
+        <div class="container">
+            <h2>إتمام الطلب</h2>
+            <form id="checkout-form" class="checkout-form">
+                <div class="form-group">
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">العنوان</label>
+                    <textarea id="address" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="notes">ملاحظات إضافية (اختياري)</label>
+                    <textarea id="notes" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>طريقة الدفع</label>
+                    <select id="payment-method" required>
+                        <option value="cash">الدفع عند الاستلام</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-order">تأكيد الطلب</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-section">
+                <h3>توصيل الفهد</h3>
+                <p>أسرع خدمة توصيل في المنطقة</p>
+            </div>
+            <div class="footer-section">
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="products.html">المنتجات</a></li>
+                    <li><a href="cart.html">سلة التسوق</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>اتصل بنا</h3>
+                <p>هاتف: 0123456789</p>
+                <p>واتساب: 201024713976</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="firebase.js"></script>
+    <script src="cart.js"></script>
+    <script>
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const notes = document.getElementById('notes').value;
+            const paymentMethod = document.getElementById('payment-method').value;
+            
+            // الحصول على محتويات السلة من localStorage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // حساب المجموع الكلي
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+            });
+            const total = subtotal + 15; // إضافة رسوم التوصيل
+            
+            // إنشاء الطلب
+            const order = {
+                customerName: name,
+                customerPhone: phone,
+                customerAddress: address,
+                notes: notes,
+                paymentMethod: paymentMethod,
+                items: cart,
+                subtotal: subtotal,
+                deliveryFee: 15,
+                total: total,
+                status: 'جديد',
+                date: new Date().toISOString()
+            };
+            
+            // إرسال الطلب إلى Firebase
+            db.collection('orders').add(order)
+                .then(() => {
+                    // إرسال الطلب إلى واتساب
+                    const whatsappMessage = `طلب جديد من ${name}%0Aرقم الهاتف: ${phone}%0Aالعنوان: ${address}%0A%0Aالطلبات:%0A${cart.map(item => `${item.name} - ${item.quantity} x ${item.price} ر.س`).join('%0A')}%0A%0Aالمجموع: ${total} ر.س%0Aطريقة الدفع: ${paymentMethod}`;
+                    
+                    window.open(`https://wa.me/201024713976?text=${whatsappMessage}`, '_blank');
+                    
+                    // تفريغ السلة
+                    localStorage.removeItem('cart');
+                    window.location.href = 'thank-you.html';
+                })
+                .catch(error => {
+                    console.error('Error adding order: ', error);
+                    alert('حدث خطأ أثناء إرسال الطلب، يرجى المحاولة مرة أخرى');
+                });
+        });
+    </script>
+</body>
+</html>
