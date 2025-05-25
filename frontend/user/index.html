@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محجوز - تطبيق حجز الفنادق في اليمن</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo-placeholder.png" alt="محجوز" id="app-logo">
+                    <span id="app-name">محجوز</span>
+                </a>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">الرئيسية</a></li>
+                    <li><a href="search.html">البحث</a></li>
+                    <li><a href="about.html">عن التطبيق</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="ar" selected>العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                
+                <div class="auth-buttons" id="auth-buttons-container">
+                    <a href="login.html" class="btn btn-outline">تسجيل الدخول</a>
+                    <a href="register.html" class="btn btn-primary">حساب جديد</a>
+                </div>
+                
+                <div class="user-profile" id="user-profile-container" style="display: none;">
+                    <div class="user-profile-dropdown">
+                        <button class="user-profile-btn">
+                            <img src="images/user-placeholder.png" alt="الصورة الشخصية" id="user-avatar">
+                            <span id="user-name">اسم المستخدم</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fas fa-user"></i> حسابي</a>
+                            <a href="bookings.html"><i class="fas fa-calendar-check"></i> حجوزاتي</a>
+                            <a href="favorites.html"><i class="fas fa-heart"></i> المفضلة</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>احجز فندقك المفضل في اليمن</h1>
+                <p>أفضل الفنادق بأفضل الأسعار مع خدمة عملاء متميزة</p>
+                
+                <div class="search-box">
+                    <form id="hero-search-form">
+                        <div class="search-row">
+                            <div class="search-group">
+                                <label for="destination"><i class="fas fa-map-marker-alt"></i> الوجهة</label>
+                                <input type="text" id="destination" placeholder="المدينة أو اسم الفندق">
+                            </div>
+                            
+                            <div class="search-group">
+                                <label for="check-in"><i class="fas fa-calendar"></i> تاريخ الوصول</label>
+                                <input type="date" id="check-in">
+                            </div>
+                            
+                            <div class="search-group">
+                                <label for="check-out"><i class="fas fa-calendar"></i> تاريخ المغادرة</label>
+                                <input type="date" id="check-out">
+                            </div>
+                            
+                            <div class="search-group">
+                                <label for="guests"><i class="fas fa-user"></i> الضيوف والغرف</label>
+                                <div class="guests-input" id="guests-input">
+                                    <span id="guests-summary">2 بالغين، 0 أطفال، 1 غرفة</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="guests-dropdown" id="guests-dropdown">
+                                    <div class="guests-option">
+                                        <span>بالغين</span>
+                                        <div class="counter">
+                                            <button type="button" class="counter-btn minus" data-target="adults">-</button>
+                                            <span id="adults-count">2</span>
+                                            <button type="button" class="counter-btn plus" data-target="adults">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="guests-option">
+                                        <span>أطفال</span>
+                                        <div class="counter">
+                                            <button type="button" class="counter-btn minus" data-target="children">-</button>
+                                            <span id="children-count">0</span>
+                                            <button type="button" class="counter-btn plus" data-target="children">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="guests-option">
+                                        <span>غرف</span>
+                                        <div class="counter">
+                                            <button type="button" class="counter-btn minus" data-target="rooms">-</button>
+                                            <span id="rooms-count">1</span>
+                                            <button type="button" class="counter-btn plus" data-target="rooms">+</button>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary btn-sm" id="guests-apply">تطبيق</button>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary search-btn">
+                                <i class="fas fa-search"></i> بحث
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <section class="featured-cities">
+            <div class="container">
+                <h2 class="section-title">استكشف المدن اليمنية</h2>
+                <div class="cities-grid">
+                    <a href="search.html?city=صنعاء" class="city-card">
+                        <img src="images/cities/sanaa-placeholder.jpg" alt="صنعاء">
+                        <div class="city-info">
+                            <h3>صنعاء</h3>
+                            <p><span id="sanaa-hotels-count">15</span> فندق</p>
+                        </div>
+                    </a>
+                    <a href="search.html?city=عدن" class="city-card">
+                        <img src="images/cities/aden-placeholder.jpg" alt="عدن">
+                        <div class="city-info">
+                            <h3>عدن</h3>
+                            <p><span id="aden-hotels-count">12</span> فندق</p>
+                        </div>
+                    </a>
+                    <a href="search.html?city=تعز" class="city-card">
+                        <img src="images/cities/taiz-placeholder.jpg" alt="تعز">
+                        <div class="city-info">
+                            <h3>تعز</h3>
+                            <p><span id="taiz-hotels-count">8</span> فندق</p>
+                        </div>
+                    </a>
+                    <a href="search.html?city=الحديدة" class="city-card">
+                        <img src="images/cities/hodeidah-placeholder.jpg" alt="الحديدة">
+                        <div class="city-info">
+                            <h3>الحديدة</h3>
+                            <p><span id="hodeidah-hotels-count">6</span> فندق</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="top-hotels">
+            <div class="container">
+                <h2 class="section-title">أفضل الفنادق</h2>
+                <div class="hotels-grid" id="top-hotels-container">
+                    <!-- سيتم تحميل الفنادق ديناميكيًا هنا -->
+                    <div class="hotel-card skeleton">
+                        <div class="hotel-image skeleton-image"></div>
+                        <div class="hotel-info">
+                            <div class="skeleton-text skeleton-title"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text skeleton-price"></div>
+                        </div>
+                    </div>
+                    <div class="hotel-card skeleton">
+                        <div class="hotel-image skeleton-image"></div>
+                        <div class="hotel-info">
+                            <div class="skeleton-text skeleton-title"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text skeleton-price"></div>
+                        </div>
+                    </div>
+                    <div class="hotel-card skeleton">
+                        <div class="hotel-image skeleton-image"></div>
+                        <div class="hotel-info">
+                            <div class="skeleton-text skeleton-title"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text skeleton-price"></div>
+                        </div>
+                    </div>
+                    <div class="hotel-card skeleton">
+                        <div class="hotel-image skeleton-image"></div>
+                        <div class="hotel-info">
+                            <div class="skeleton-text skeleton-title"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text skeleton-price"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="view-all-container">
+                    <a href="search.html" class="btn btn-outline">عرض جميع الفنادق</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="app-features">
+            <div class="container">
+                <h2 class="section-title">لماذا تختار محجوز؟</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>بحث سهل وسريع</h3>
+                        <p>ابحث عن الفنادق حسب المدينة، المنطقة، أو بالقرب من المعالم السياحية</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <h3>أفضل الأسعار</h3>
+                        <p>نضمن لك أفضل الأسعار مع خيارات متنوعة تناسب ميزانيتك</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>حجز آمن</h3>
+                        <p>حجوزات آمنة ومضمونة مع تأكيد فوري للحجز</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>دعم على مدار الساعة</h3>
+                        <p>فريق خدمة العملاء متاح دائمًا لمساعدتك في أي وقت</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="section-title">آراء عملائنا</h2>
+                <div class="testimonials-slider" id="testimonials-container">
+                    <!-- سيتم تحميل التقييمات ديناميكيًا هنا -->
+                    <div class="testimonial-card skeleton">
+                        <div class="testimonial-header">
+                            <div class="skeleton-circle"></div>
+                            <div class="skeleton-text skeleton-title"></div>
+                        </div>
+                        <div class="skeleton-text"></div>
+                        <div class="skeleton-text"></div>
+                        <div class="skeleton-text"></div>
+                    </div>
+                    <div class="testimonial-card skeleton">
+                        <div class="testimonial-header">
+                            <div class="skeleton-circle"></div>
+                            <div class="skeleton-text skeleton-title"></div>
+                        </div>
+                        <div class="skeleton-text"></div>
+                        <div class="skeleton-text"></div>
+                        <div class="skeleton-text"></div>
+                    </div>
+                </div>
+                <div class="testimonial-controls">
+                    <button id="testimonial-prev" class="testimonial-control-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button id="testimonial-next" class="testimonial-control-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="newsletter">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>اشترك في النشرة البريدية</h2>
+                    <p>احصل على أحدث العروض والخصومات مباشرة إلى بريدك الإلكتروني</p>
+                    <form id="newsletter-form">
+                        <div class="newsletter-form-group">
+                            <input type="email" id="newsletter-email" placeholder="أدخل بريدك الإلكتروني" required>
+                            <button type="submit" class="btn btn-primary">اشتراك</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo-placeholder.png" alt="محجوز" id="footer-logo">
+                        <span id="footer-app-name">محجوز</span>
+                    </div>
+                    <p>منصة حجز الفنادق الأولى في اليمن. نوفر لك أفضل الفنادق بأفضل الأسعار مع خدمة عملاء متميزة.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="search.html">البحث</a></li>
+                        <li><a href="about.html">عن التطبيق</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>المدن</h3>
+                    <ul class="footer-links">
+                        <li><a href="search.html?city=صنعاء">فنادق صنعاء</a></li>
+                        <li><a href="search.html?city=عدن">فنادق عدن</a></li>
+                        <li><a href="search.html?city=تعز">فنادق تعز</a></li>
+                        <li><a href="search.html?city=الحديدة">فنادق الحديدة</a></li>
+                        <li><a href="search.html?city=المكلا">فنادق المكلا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>اتصل بنا</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> <span id="contact-address">صنعاء، اليمن</span></li>
+                        <li><i class="fas fa-phone"></i> <span id="contact-phone">+967 123 456 789</span></li>
+                        <li><i class="fas fa-envelope"></i> <span id="contact-email">info@mahjooz.com</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2025</span> محجوز. جميع الحقوق محفوظة.</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">سياسة الخصوصية</a>
+                    <a href="terms.html">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/firebase-init.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/admin-login.js"></script>
+</body>
+</html>

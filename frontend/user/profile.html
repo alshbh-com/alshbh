@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي - محجوز</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* أنماط خاصة بصفحة الملف الشخصي */
+        .profile-section {
+            padding: 2rem 0;
+        }
+        
+        .profile-container {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .profile-sidebar {
+            flex: 1;
+            max-width: 300px;
+        }
+        
+        .profile-content {
+            flex: 3;
+        }
+        
+        .profile-card {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-nav {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+        
+        .profile-nav-item {
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--gray-light);
+            transition: all var(--transition-speed);
+        }
+        
+        .profile-nav-item:last-child {
+            border-bottom: none;
+        }
+        
+        .profile-nav-item:hover {
+            background-color: rgba(var(--primary-rgb), 0.05);
+        }
+        
+        .profile-nav-item.active {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+        
+        .profile-nav-item i {
+            margin-left: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 1.5rem;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-email {
+            color: var(--gray-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-member-since {
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .profile-stat {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem;
+            flex: 1;
+            text-align: center;
+            transition: all var(--transition-speed);
+        }
+        
+        .profile-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+        }
+        
+        .profile-section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .profile-tab {
+            display: none;
+        }
+        
+        .profile-tab.active {
+            display: block;
+        }
+        
+        .notification-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-color);
+            margin-left: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .notification-text {
+            color: var(--gray-dark);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .notification-time {
+            font-size: 0.75rem;
+            color: var(--gray-dark);
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .notification-actions .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        
+        .security-section {
+            margin-bottom: 2rem;
+        }
+        
+        .password-strength {
+            height: 5px;
+            background-color: var(--gray-light);
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            border-radius: 5px;
+            transition: all var(--transition-speed);
+        }
+        
+        .password-strength-text {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        
+        .weak {
+            background-color: var(--danger-color);
+            width: 25%;
+        }
+        
+        .medium {
+            background-color: var(--warning-color);
+            width: 50%;
+        }
+        
+        .strong {
+            background-color: var(--success-color);
+            width: 100%;
+        }
+        
+        .preferences-section {
+            margin-bottom: 2rem;
+        }
+        
+        .preference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .preference-item:last-child {
+            border-bottom: none;
+        }
+        
+        .preference-label {
+            font-weight: 600;
+        }
+        
+        .preference-description {
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+            margin-top: 0.25rem;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-light);
+            transition: var(--transition-speed);
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            right: 4px;
+            bottom: 4px;
+            background-color: var(--white-color);
+            transition: var(--transition-speed);
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(-26px);
+        }
+        
+        @media (max-width: 992px) {
+            .profile-container {
+                flex-direction: column;
+            }
+            
+            .profile-sidebar {
+                max-width: 100%;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo-placeholder.png" alt="محجوز" id="app-logo">
+                    <span id="app-name">محجوز</span>
+                </a>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="search.html">البحث</a></li>
+                    <li><a href="about.html">عن التطبيق</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="ar" selected>العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                
+                <div class="auth-buttons" id="auth-buttons-container" style="display: none;">
+                    <a href="login.html" class="btn btn-outline">تسجيل الدخول</a>
+                    <a href="register.html" class="btn btn-primary">حساب جديد</a>
+                </div>
+                
+                <div class="user-profile" id="user-profile-container">
+                    <div class="user-profile-dropdown">
+                        <button class="user-profile-btn">
+                            <img src="images/user-placeholder.png" alt="الصورة الشخصية" id="user-avatar">
+                            <span id="user-name">أحمد محمد</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html" class="active"><i class="fas fa-user"></i> حسابي</a>
+                            <a href="bookings.html"><i class="fas fa-calendar-check"></i> حجوزاتي</a>
+                            <a href="favorites.html"><i class="fas fa-heart"></i> المفضلة</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="profile-section">
+            <div class="container">
+                <div class="profile-container">
+                    <div class="profile-sidebar">
+                        <div class="profile-card">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <img src="images/user-placeholder.png" alt="الصورة الشخصية" class="profile-avatar" style="margin: 0 auto 1rem;">
+                                <h3 class="profile-name" style="margin-bottom: 0.5rem;">أحمد محمد</h3>
+                                <p class="profile-email">ahmed@example.com</p>
+                                <button class="btn btn-outline btn-sm" id="change-avatar-btn">تغيير الصورة</button>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-nav">
+                            <a href="#profile" class="profile-nav-item active" data-tab="profile-tab">
+                                <i class="fas fa-user"></i>
+                                <span>الملف الشخصي</span>
+                            </a>
+                            <a href="#bookings" class="profile-nav-item" data-tab="bookings-tab">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>حجوزاتي</span>
+                            </a>
+                            <a href="#favorites" class="profile-nav-item" data-tab="favorites-tab">
+                                <i class="fas fa-heart"></i>
+                                <span>المفضلة</span>
+                            </a>
+                            <a href="#notifications" class="profile-nav-item" data-tab="notifications-tab">
+                                <i class="fas fa-bell"></i>
+                                <span>الإشعارات</span>
+                            </a>
+                            <a href="#security" class="profile-nav-item" data-tab="security-tab">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>الأمان</span>
+                            </a>
+                            <a href="#preferences" class="profile-nav-item" data-tab="preferences-tab">
+                                <i class="fas fa-cog"></i>
+                                <span>التفضيلات</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-content">
+                        <!-- الملف الشخصي -->
+                        <div id="profile-tab" class="profile-tab active">
+                            <div class="profile-card">
+                                <h2 class="profile-section-title">الملف الشخصي</h2>
+                                
+                                <div class="profile-stats">
+                                    <div class="profile-stat">
+                                        <div class="stat-value">3</div>
+                                        <div class="stat-label">حجوزات</div>
+                                    </div>
+                                    <div class="profile-stat">
+                                        <div class="stat-value">5</div>
+                                        <div class="stat-label">مراجعات</div>
+                                    </div>
+                                    <div class="profile-stat">
+                                        <div class="stat-value">7</div>
+                                        <div class="stat-label">فنادق مفضلة</div>
+                                    </div>
+                                </div>
+                                
+                                <form id="profile-form">
+                                    <div class="form-row">
+                                        <div class="form-col">
+                                            <div class="form-group">
+                                                <label for="first-name" class="form-label">الاسم الأول</label>
+                                                <input type="text" id="first-name" class="form-control" value="أحمد">
+                                            </div>
+                                        </div>
+                                        <div class="form-col">
+                                            <div class="form-group">
+                                                <label for="last-name" class="form-label">الاسم الأخير</label>
+                                                <input type="text" id="last-name" class="form-control" value="محمد">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">البريد الإلكتروني</label>
+                                        <input type="email" id="email" class="form-control" value="ahmed@example.com">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="phone" class="form-label">رقم الهاتف</label>
+                                        <input type="tel" id="phone" class="form-control" value="+967 123 456 789">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="nationality" class="form-label">الجنسية</label>
+                                        <select id="nationality" class="form-control">
+                                            <option value="YE" selected>يمني</option>
+                                            <option value="SA">سعودي</option>
+                                            <option value="AE">إماراتي</option>
+                                            <option value="KW">كويتي</option>
+                                            <option value="BH">بحريني</option>
+                                            <option value="QA">قطري</option>
+                                            <option value="OM">عماني</option>
+                                            <option value="JO">أردني</option>
+                                            <option value="EG">مصري</option>
+                                            <option value="other">أخرى</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="address" class="form-label">العنوان</label>
+                                        <textarea id="address" class="form-control" rows="3">صنعاء، شارع الزبيري</textarea>
+                                    </div>
+                                    
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-outline" id="cancel-profile-btn">إلغاء</button>
+                                        <button type="button" class="btn btn-primary" id="save-profile-btn">حفظ التغييرات</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- حجوزاتي -->
+                        <div id="bookings-tab" class="profile-tab">
+                            <div class="profile-card">
+                                <h2 class="profile-section-title">حجوزاتي</h2>
+                                
+                                <div class="bookings-list">
+                                    <!-- سيتم تحميل الحجوزات هنا -->
+                                    <p>جاري تحميل الحجوزات...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- المفضلة -->
+                        <div id="favorites-tab" class="profile-tab">
+                            <div class="profile-card">
+                                <h2 class="profile-section-title">الفنادق المفضلة</h2>
+                                
+                                <div class="favorites-list">
+                                    <!-- سيتم تحميل الفنادق المفضلة هنا -->
+                                    <p>جاري تحميل الفنادق المفضلة...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- الإشعارات -->
+                        <div id="notifications-tab" class="profile-tab">
+                            <div class="profile-card">
+                                <h2 class="profile-section-title">الإشعارات</h2>
+                                
+                                <div class="notifications-list">
+                                    <div class="notification-item">
+                                        <div class="notification-icon">
+                                            <i class="fas fa-calendar-check"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <div class="notification-title">تم تأكيد الحجز</div>
+                                            <div class="notification-text">تم تأكيد حجزك في فندق القصر للفترة من 25 مايو إلى 26 مايو 2025.</div>
+                                            <div class="notification-time">منذ 3 ساعات</div>
+                                            <div class="notification-actions">
+                                                <button class="btn btn-primary btn-sm">عرض الحجز</button>
+                                                <button class="btn btn-outline btn-sm">تجاهل</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="notification-item">
+                                        <div class="notification-icon">
+                                            <i class="fas fa-percent"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <div class="notification-title">عرض خاص</div>
+                                            <div class="notification-text">احصل على خصم 15% على حجوزات الفنادق في صنعاء هذا الأسبوع.</div>
+                                            <div class="notification-time">منذ يوم واحد</div>
+                                            <div class="notification-actions">
+                                                <button class="btn btn-primary btn-sm">استفد الآن</button>
+                                                <button class="btn btn-outline btn-sm">تجاهل</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="notification-item">
+                                        <div class="notification-icon">
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <div class="notification-title">قيّم إقامتك</div>
+                                            <div class="notification-text">شاركنا رأيك في إقامتك الأخيرة في فندق الخليج.</div>
+                                            <div class="notification-time">منذ 3 أيام</div>
+                                            <div class="notification-actions">
+                                                <button class="btn btn-primary btn-sm">إضافة تقييم</button>
+                                                <button class="btn btn-outline btn-sm">لاحقًا</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- الأمان -->
+                        <div id="security-tab" class="profile-tab">
+                            <div class="profile-card">
+                                <h2 class="profile-section-title">الأمان</h2>
+                                
+                                <div class="security-section">
+                                    <h3>تغيير كلمة المرور</h3>
+                                    
+                                    <form id="password-form">
+                                        <div class="form-group">
+                                            <label for="current-password" class="form-label">كلمة المرور الحالية</label>
+                                            <input type="password" id="current-password" class="form-control">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="new-password" class="form-label">كلمة المرور الجديدة</label>
+                                            <input type="password" id="new-password" class="form-control">
+                                            <div class="password-strength">
+                                                <div class="password-strength-bar"></div>
+                                            </div>
+                                            <div class="password-strength-text"></div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="confirm-password" class="form-label">تأكيد كلمة المرور الجديدة</label>
+                                            <input type="password" id="confirm-password" class="form-control">
+                                        </div>
+                                        
+                                        <div class="form-actions">
+                                            <button type="button" class="btn btn-outline" id="cancel-password-btn">إلغاء</button>
+                                            <button type="button" class="btn btn-primary" id="save-password-btn">تغيير كلمة المرور</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                                <div class="security-section">
+                                    <h3>المصادقة الثنائية</h3>
+                                    
+                                    <div class="preference-item">
+                                        <div>
+                                            <div class="preference-label">تفعيل المصادقة الثنائية</div>
+                                            <div class="preference-description">زيادة أمان حسابك باستخدام رمز تحقق إضافي عند تسجيل الدخول.</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="two-factor-auth">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="security-section">
+                                    <h3>جلسات تسجيل الدخول</h3>
+                                    
+                                    <div class="session-item" style="display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--gray-light);">
+                                        <div>
+                                            <div style="font-weight: 600;">الجهاز الحالي</div>
+                                            <div style="font-size: 0.875rem; color: var(--gray-dark);">Chrome على Windows • صنعاء، اليمن</div>
+                                            <div style="font-size: 0.75rem; color: var(--gray-dark);">آخر نشاط: الآن</div>
+                                        </div>
+                                        <div>
+                                            <span class="badge" style="background-color: var(--success-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">نشط</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="session-item" style="display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--gray-light);">
+                                        <div>
+                                            <div style="font-weight: 600;">iPhone 13</div>
+                                            <div style="font-size: 0.875rem; color: var(--gray-dark);">Safari على iOS • صنعاء، اليمن</div>
+                                            <div style="font-size: 0.75rem; color: var(--gray-dark);">آخر نشاط: منذ 2 ساعة</div>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-danger btn-sm">إنهاء</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-top: 1rem;">
+                                        <button class="btn btn-danger" id="logout-all-btn">تسجيل الخروج من جميع الأجهزة</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- التفضيلات -->
+                        <div id="preferences-tab" class="profile-tab">
+                            <div class="profile-card">
+                                <h2 class="profile-section-title">التفضيلات</h2>
+                                
+                                <div class="preferences-section">
+                                    <h3>الإشعارات</h3>
+                                    
+                                    <div class="preference-item">
+                                        <div>
+                                            <div class="preference-label">إشعارات البريد الإلكتروني</div>
+                                            <div class="preference-description">استلام إشعارات عبر البريد الإلكتروني حول الحجوزات والعروض.</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="email-notifications" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="preference-item">
+                                        <div>
+                                            <div class="preference-label">إشعارات الرسائل النصية</div>
+                                            <div class="preference-description">استلام إشعارات عبر الرسائل النصية حول الحجوزات.</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="sms-notifications">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="preference-item">
+                                        <div>
+                                            <div class="preference-label">إشعارات العروض والخصومات</div>
+                                            <div class="preference-description">استلام إشعارات حول العروض الخاصة والخصومات.</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="promo-notifications" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="preferences-section">
+                                    <h3>اللغة والعملة</h3>
+                                    
+                                    <div class="form-group">
+                                        <label for="language-preference" class="form-label">اللغة المفضلة</label>
+                                        <select id="language-preference" class="form-control">
+                                            <option value="ar" selected>العربية</option>
+                                            <option value="en">English</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="currency-preference" class="form-label">العملة المفضلة</label>
+                                        <select id="currency-preference" class="form-control">
+                                            <option value="SAR" selected>ريال سعودي (SAR)</option>
+                                            <option value="YER">ريال يمني (YER)</option>
+                                            <option value="USD">دولار أمريكي (USD)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline" id="cancel-preferences-btn">إلغاء</button>
+                                    <button type="button" class="btn btn-primary" id="save-preferences-btn">حفظ التفضيلات</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo-placeholder.png" alt="محجوز" id="footer-logo">
+                        <span id="footer-app-name">محجوز</span>
+                    </div>
+                    <p>منصة حجز الفنادق الأولى في اليمن. نوفر لك أفضل الفنادق بأفضل الأسعار مع خدمة عملاء متميزة.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="search.html">البحث</a></li>
+                        <li><a href="about.html">عن التطبيق</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>المدن</h3>
+                    <ul class="footer-links">
+                        <li><a href="search.html?city=صنعاء">فنادق صنعاء</a></li>
+                        <li><a href="search.html?city=عدن">فنادق عدن</a></li>
+                        <li><a href="search.html?city=تعز">فنادق تعز</a></li>
+                        <li><a href="search.html?city=الحديدة">فنادق الحديدة</a></li>
+                        <li><a href="search.html?city=المكلا">فنادق المكلا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>اتصل بنا</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> <span id="contact-address">صنعاء، اليمن</span></li>
+                        <li><i class="fas fa-phone"></i> <span id="contact-phone">+967 123 456 789</span></li>
+                        <li><i class="fas fa-envelope"></i> <span id="contact-email">info@mahjooz.com</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2025</span> محجوز. جميع الحقوق محفوظة.</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">سياسة الخصوصية</a>
+                    <a href="terms.html">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/firebase-init.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/admin-login.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // تهيئة التبويبات
+            setupTabs();
+            
+            // تهيئة قوة كلمة المرور
+            setupPasswordStrength();
+            
+            // تهيئة أزرار الحفظ
+            setupSaveButtons();
+            
+            // تحديث السنة الحالية
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // تحميل الحجوزات والمفضلة
+            loadBookings();
+            loadFavorites();
+            
+            // التحقق من تسجيل الدخول
+            checkAuthStatus();
+        });
+        
+        // تهيئة التبويبات
+        function setupTabs() {
+            const tabLinks = document.querySelectorAll('.profile-nav-item');
+            const tabContents = document.querySelectorAll('.profile-tab');
+            
+            tabLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    const tabId = link.getAttribute('data-tab');
+                    
+                    // إزالة الفئة النشطة من جميع الروابط
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // إضافة الفئة النشطة للرابط المختار
+                    link.classList.add('active');
+                    
+                    // إخفاء جميع التبويبات
+                    tabContents.forEach(tab => tab.classList.remove('active'));
+                    
+                    // إظهار التبويب المختار
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // تحديث عنوان URL
+                    window.history.pushState(null, null, link.getAttribute('href'));
+                });
+            });
+            
+            // التحقق من عنوان URL عند تحميل الصفحة
+            const hash = window.location.hash;
+            if (hash) {
+                const activeTab = document.querySelector(`.profile-nav-item[href="${hash}"]`);
+                if (activeTab) {
+                    activeTab.click();
+                }
+            }
+        }
+        
+        // تهيئة قوة كلمة المرور
+        function setupPasswordStrength() {
+            const passwordInput = document.getElementById('new-password');
+            const strengthBar = document.querySelector('.password-strength-bar');
+            const strengthText = document.querySelector('.password-strength-text');
+            
+            if (passwordInput && strengthBar && strengthText) {
+                passwordInput.addEventListener('input', () => {
+                    const password = passwordInput.value;
+                    const strength = checkPasswordStrength(password);
+                    
+                    // إزالة جميع الفئات
+                    strengthBar.classList.remove('weak', 'medium', 'strong');
+                    
+                    if (password.length === 0) {
+                        strengthBar.style.width = '0';
+                        strengthText.textContent = '';
+                        return;
+                    }
+                    
+                    // إضافة الفئة المناسبة
+                    if (strength === 'weak') {
+                        strengthBar.classList.add('weak');
+                        strengthText.textContent = 'ضعيفة';
+                        strengthText.style.color = 'var(--danger-color)';
+                    } else if (strength === 'medium') {
+                        strengthBar.classList.add('medium');
+                        strengthText.textContent = 'متوسطة';
+                        strengthText.style.color = 'var(--warning-color)';
+                    } else {
+                        strengthBar.classList.add('strong');
+                        strengthText.textContent = 'قوية';
+                        strengthText.style.color = 'var(--success-color)';
+                    }
+                });
+            }
+        }
+        
+        // التحقق من قوة كلمة المرور
+        function checkPasswordStrength(password) {
+            if (password.length < 8) {
+                return 'weak';
+            }
+            
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasNumbers = /\d/.test(password);
+            const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            
+            const strength = hasUpperCase + hasLowerCase + hasNumbers + hasSpecialChars;
+            
+            if (strength < 3) {
+                return 'medium';
+            }
+            
+            return 'strong';
+        }
+        
+        // تهيئة أزرار الحفظ
+        function setupSaveButtons() {
+            // حفظ الملف الشخصي
+            const saveProfileBtn = document.getElementById('save-profile-btn');
+            if (saveProfileBtn) {
+                saveProfileBtn.addEventListener('click', () => {
+                    // جمع بيانات النموذج
+                    const firstName = document.getElementById('first-name').value;
+                    const lastName = document.getElementById('last-name').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const nationality = document.getElementById('nationality').value;
+                    const address = document.getElementById('address').value;
+                    
+                    // التحقق من صحة البيانات
+                    if (!firstName || !lastName || !email) {
+                        alert('يرجى ملء جميع الحقول المطلوبة.');
+                        return;
+                    }
+                    
+                    // حفظ البيانات
+                    saveProfileData({
+                        firstName,
+                        lastName,
+                        email,
+                        phone,
+                        nationality,
+                        address
+                    });
+                });
+            }
+            
+            // حفظ كلمة المرور
+            const savePasswordBtn = document.getElementById('save-password-btn');
+            if (savePasswordBtn) {
+                savePasswordBtn.addEventListener('click', () => {
+                    // جمع بيانات النموذج
+                    const currentPassword = document.getElementById('current-password').value;
+                    const newPassword = document.getElementById('new-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    
+                    // التحقق من صحة البيانات
+                    if (!currentPassword || !newPassword || !confirmPassword) {
+                        alert('يرجى ملء جميع الحقول المطلوبة.');
+                        return;
+                    }
+                    
+                    if (newPassword !== confirmPassword) {
+                        alert('كلمة المرور الجديدة وتأكيدها غير متطابقين.');
+                        return;
+                    }
+                    
+                    if (checkPasswordStrength(newPassword) === 'weak') {
+                        alert('كلمة المرور ضعيفة جدًا. يرجى اختيار كلمة مرور أقوى.');
+                        return;
+                    }
+                    
+                    // تغيير كلمة المرور
+                    changePassword(currentPassword, newPassword);
+                });
+            }
+            
+            // حفظ التفضيلات
+            const savePreferencesBtn = document.getElementById('save-preferences-btn');
+            if (savePreferencesBtn) {
+                savePreferencesBtn.addEventListener('click', () => {
+                    // جمع بيانات التفضيلات
+                    const emailNotifications = document.getElementById('email-notifications').checked;
+                    const smsNotifications = document.getElementById('sms-notifications').checked;
+                    const promoNotifications = document.getElementById('promo-notifications').checked;
+                    const languagePreference = document.getElementById('language-preference').value;
+                    const currencyPreference = document.getElementById('currency-preference').value;
+                    
+                    // حفظ التفضيلات
+                    savePreferences({
+                        emailNotifications,
+                        smsNotifications,
+                        promoNotifications,
+                        languagePreference,
+                        currencyPreference
+                    });
+                });
+            }
+        }
+        
+        // حفظ بيانات الملف الشخصي
+        function saveProfileData(data) {
+            // هنا يتم حفظ البيانات في قاعدة البيانات
+            console.log('حفظ بيانات الملف الشخصي:', data);
+            
+            // عرض رسالة نجاح
+            alert('تم حفظ بيانات الملف الشخصي بنجاح.');
+            
+            // تحديث اسم المستخدم في الواجهة
+            document.getElementById('user-name').textContent = `${data.firstName} ${data.lastName}`;
+            document.querySelector('.profile-name').textContent = `${data.firstName} ${data.lastName}`;
+        }
+        
+        // تغيير كلمة المرور
+        function changePassword(currentPassword, newPassword) {
+            // هنا يتم تغيير كلمة المرور في قاعدة البيانات
+            console.log('تغيير كلمة المرور');
+            
+            // عرض رسالة نجاح
+            alert('تم تغيير كلمة المرور بنجاح.');
+            
+            // إعادة تعيين النموذج
+            document.getElementById('password-form').reset();
+            document.querySelector('.password-strength-bar').style.width = '0';
+            document.querySelector('.password-strength-text').textContent = '';
+        }
+        
+        // حفظ التفضيلات
+        function savePreferences(preferences) {
+            // هنا يتم حفظ التفضيلات في قاعدة البيانات
+            console.log('حفظ التفضيلات:', preferences);
+            
+            // عرض رسالة نجاح
+            alert('تم حفظ التفضيلات بنجاح.');
+            
+            // تحديث اللغة في الواجهة
+            document.getElementById('language-select').value = preferences.languagePreference;
+        }
+        
+        // تحميل الحجوزات
+        function loadBookings() {
+            // هنا يتم تحميل الحجوزات من قاعدة البيانات
+            const bookingsList = document.querySelector('.bookings-list');
+            
+            if (bookingsList) {
+                // محاكاة تحميل البيانات
+                setTimeout(() => {
+                    bookingsList.innerHTML = `
+                        <div class="hotel-card-horizontal" style="margin-bottom: 1rem;">
+                            <img src="images/hotels/hotel1-placeholder.jpg" alt="فندق القصر" class="hotel-image-small">
+                            <div class="hotel-info-small">
+                                <h3 class="hotel-name-small">فندق القصر</h3>
+                                <div class="hotel-location-small">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>صنعاء، شارع الزبيري</span>
+                                </div>
+                                <div style="margin-top: 0.5rem;">
+                                    <span style="font-weight: 600;">تاريخ الحجز:</span> 25 مايو - 26 مايو 2025
+                                </div>
+                                <div style="margin-top: 0.25rem;">
+                                    <span style="font-weight: 600;">رقم الحجز:</span> BK12345678
+                                </div>
+                                <div style="margin-top: 0.25rem;">
+                                    <span style="font-weight: 600;">الحالة:</span> 
+                                    <span style="color: var(--success-color);">مؤكد</span>
+                                </div>
+                                <div style="text-align: left; margin-top: 0.5rem;">
+                                    <a href="booking-details.html?id=BK12345678" class="btn btn-primary btn-sm">التفاصيل</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="hotel-card-horizontal" style="margin-bottom: 1rem;">
+                            <img src="images/hotels/hotel2-placeholder.jpg" alt="فندق الخليج" class="hotel-image-small">
+                            <div class="hotel-info-small">
+                                <h3 class="hotel-name-small">فندق الخليج</h3>
+                                <div class="hotel-location-small">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>عدن، المعلا</span>
+                                </div>
+                                <div style="margin-top: 0.5rem;">
+                                    <span style="font-weight: 600;">تاريخ الحجز:</span> 10 أبريل - 15 أبريل 2025
+                                </div>
+                                <div style="margin-top: 0.25rem;">
+                                    <span style="font-weight: 600;">رقم الحجز:</span> BK87654321
+                                </div>
+                                <div style="margin-top: 0.25rem;">
+                                    <span style="font-weight: 600;">الحالة:</span> 
+                                    <span style="color: var(--gray-dark);">مكتمل</span>
+                                </div>
+                                <div style="text-align: left; margin-top: 0.5rem;">
+                                    <a href="booking-details.html?id=BK87654321" class="btn btn-primary btn-sm">التفاصيل</a>
+                                    <a href="review.html?hotel=2" class="btn btn-outline btn-sm">إضافة تقييم</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="hotel-card-horizontal" style="margin-bottom: 1rem;">
+                            <img src="images/hotels/hotel3-placeholder.jpg" alt="فندق السلام" class="hotel-image-small">
+                            <div class="hotel-info-small">
+                                <h3 class="hotel-name-small">فندق السلام</h3>
+                                <div class="hotel-location-small">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>تعز، شارع جمال</span>
+                                </div>
+                                <div style="margin-top: 0.5rem;">
+                                    <span style="font-weight: 600;">تاريخ الحجز:</span> 1 مارس - 3 مارس 2025
+                                </div>
+                                <div style="margin-top: 0.25rem;">
+                                    <span style="font-weight: 600;">رقم الحجز:</span> BK24681357
+                                </div>
+                                <div style="margin-top: 0.25rem;">
+                                    <span style="font-weight: 600;">الحالة:</span> 
+                                    <span style="color: var(--gray-dark);">مكتمل</span>
+                                </div>
+                                <div style="text-align: left; margin-top: 0.5rem;">
+                                    <a href="booking-details.html?id=BK24681357" class="btn btn-primary btn-sm">التفاصيل</a>
+                                    <a href="review.html?hotel=3" class="btn btn-outline btn-sm">إضافة تقييم</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }, 1000);
+            }
+        }
+        
+        // تحميل الفنادق المفضلة
+        function loadFavorites() {
+            // هنا يتم تحميل الفنادق المفضلة من قاعدة البيانات
+            const favoritesList = document.querySelector('.favorites-list');
+            
+            if (favoritesList) {
+                // محاكاة تحميل البيانات
+                setTimeout(() => {
+                    favoritesList.innerHTML = `
+                        <div class="hotel-card-horizontal" style="margin-bottom: 1rem;">
+                            <img src="images/hotels/hotel1-placeholder.jpg" alt="فندق القصر" class="hotel-image-small">
+                            <div class="hotel-info-small">
+                                <h3 class="hotel-name-small">فندق القصر</h3>
+                                <div class="hotel-location-small">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>صنعاء، شارع الزبيري</span>
+                                </div>
+                                <div class="hotel-rating-small">
+                                    <div class="rating-stars-small">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span>5 نجوم</span>
+                                </div>
+                                <div style="margin-top: 0.5rem;">
+                                    <span style="font-weight: 600;">السعر:</span> 
+                                    <span style="color: var(--primary-color);">SAR 750 / ليلة</span>
+                                </div>
+                                <div style="text-align: left; margin-top: 0.5rem;">
+                                    <a href="hotel.html?id=1" class="btn btn-primary btn-sm">عرض</a>
+                                    <button class="btn btn-outline btn-sm remove-favorite" data-id="1">إزالة</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="hotel-card-horizontal" style="margin-bottom: 1rem;">
+                            <img src="images/hotels/hotel2-placeholder.jpg" alt="فندق الخليج" class="hotel-image-small">
+                            <div class="hotel-info-small">
+                                <h3 class="hotel-name-small">فندق الخليج</h3>
+                                <div class="hotel-location-small">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>عدن، المعلا</span>
+                                </div>
+                                <div class="hotel-rating-small">
+                                    <div class="rating-stars-small">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span>4 نجوم</span>
+                                </div>
+                                <div style="margin-top: 0.5rem;">
+                                    <span style="font-weight: 600;">السعر:</span> 
+                                    <span style="color: var(--primary-color);">SAR 550 / ليلة</span>
+                                </div>
+                                <div style="text-align: left; margin-top: 0.5rem;">
+                                    <a href="hotel.html?id=2" class="btn btn-primary btn-sm">عرض</a>
+                                    <button class="btn btn-outline btn-sm remove-favorite" data-id="2">إزالة</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="hotel-card-horizontal" style="margin-bottom: 1rem;">
+                            <img src="images/hotels/hotel3-placeholder.jpg" alt="فندق السلام" class="hotel-image-small">
+                            <div class="hotel-info-small">
+                                <h3 class="hotel-name-small">فندق السلام</h3>
+                                <div class="hotel-location-small">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>تعز، شارع جمال</span>
+                                </div>
+                                <div class="hotel-rating-small">
+                                    <div class="rating-stars-small">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span>3 نجوم</span>
+                                </div>
+                                <div style="margin-top: 0.5rem;">
+                                    <span style="font-weight: 600;">السعر:</span> 
+                                    <span style="color: var(--primary-color);">SAR 350 / ليلة</span>
+                                </div>
+                                <div style="text-align: left; margin-top: 0.5rem;">
+                                    <a href="hotel.html?id=3" class="btn btn-primary btn-sm">عرض</a>
+                                    <button class="btn btn-outline btn-sm remove-favorite" data-id="3">إزالة</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // إضافة مستمعي الأحداث لأزرار الإزالة
+                    const removeButtons = document.querySelectorAll('.remove-favorite');
+                    removeButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const hotelId = button.getAttribute('data-id');
+                            removeFavorite(hotelId, button.closest('.hotel-card-horizontal'));
+                        });
+                    });
+                }, 1000);
+            }
+        }
+        
+        // إزالة فندق من المفضلة
+        function removeFavorite(hotelId, element) {
+            // هنا يتم إزالة الفندق من المفضلة في قاعدة البيانات
+            console.log('إزالة الفندق من المفضلة:', hotelId);
+            
+            // إزالة العنصر من الواجهة
+            if (element) {
+                element.style.opacity = '0';
+                setTimeout(() => {
+                    element.remove();
+                    
+                    // التحقق مما إذا كانت القائمة فارغة
+                    const favoritesList = document.querySelector('.favorites-list');
+                    if (favoritesList && favoritesList.children.length === 0) {
+                        favoritesList.innerHTML = '<p>لا توجد فنادق مفضلة.</p>';
+                    }
+                }, 300);
+            }
+        }
+        
+        // التحقق من حالة تسجيل الدخول
+        function checkAuthStatus() {
+            // التحقق مما إذا كان المستخدم مسجل الدخول
+            const isLoggedIn = isUserLoggedIn();
+            
+            if (!isLoggedIn) {
+                // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+                window.location.href = 'login.html?redirect=profile.html';
+            }
+        }
+        
+        // التحقق مما إذا كان المستخدم مسجل الدخول
+        function isUserLoggedIn() {
+            // في هذا المثال، نفترض أن المستخدم مسجل الدخول
+            return true;
+        }
+    </script>
+</body>
+</html>

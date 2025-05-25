@@ -1,0 +1,427 @@
+{
+  "app": {
+    "name": "محجوز",
+    "slogan": "منصة حجز الفنادق الأولى في اليمن"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "search": "البحث",
+    "about": "عن التطبيق",
+    "contact": "اتصل بنا",
+    "login": "تسجيل الدخول",
+    "register": "حساب جديد",
+    "profile": "حسابي",
+    "bookings": "حجوزاتي",
+    "favorites": "المفضلة",
+    "logout": "تسجيل الخروج",
+    "admin": "لوحة التحكم"
+  },
+  "home": {
+    "hero": {
+      "title": "احجز فندقك المفضل في اليمن",
+      "subtitle": "أكثر من 500 فندق في مختلف المدن اليمنية",
+      "search_placeholder": "ابحث عن فندق أو مدينة...",
+      "search_button": "بحث"
+    },
+    "search_form": {
+      "destination": "الوجهة",
+      "destination_placeholder": "المدينة أو اسم الفندق",
+      "check_in": "تاريخ الوصول",
+      "check_out": "تاريخ المغادرة",
+      "guests": "الضيوف",
+      "adults": "بالغين",
+      "children": "أطفال",
+      "search_button": "بحث عن الفنادق"
+    },
+    "popular_cities": {
+      "title": "المدن الشهيرة",
+      "view_all": "عرض الكل"
+    },
+    "featured_hotels": {
+      "title": "فنادق مميزة",
+      "view_all": "عرض الكل"
+    },
+    "special_offers": {
+      "title": "عروض خاصة",
+      "view_all": "عرض الكل"
+    },
+    "why_choose": {
+      "title": "لماذا تختار محجوز؟",
+      "reason1_title": "أفضل الأسعار",
+      "reason1_text": "نضمن لك أفضل الأسعار لجميع الفنادق",
+      "reason2_title": "حجز آمن",
+      "reason2_text": "عملية حجز آمنة وسهلة مع تأكيد فوري",
+      "reason3_title": "دعم على مدار الساعة",
+      "reason3_text": "فريق دعم متاح 24/7 لمساعدتك",
+      "reason4_title": "تقييمات حقيقية",
+      "reason4_text": "تقييمات ومراجعات من نزلاء حقيقيين"
+    },
+    "app_download": {
+      "title": "احصل على تطبيق محجوز",
+      "subtitle": "احجز فندقك المفضل في أي وقت ومن أي مكان",
+      "android": "تحميل للأندرويد",
+      "ios": "تحميل للآيفون"
+    }
+  },
+  "search": {
+    "title": "نتائج البحث",
+    "filters": {
+      "title": "الفلاتر",
+      "price": "السعر",
+      "price_range": "نطاق السعر",
+      "hotel_class": "فئة الفندق",
+      "stars": "نجوم",
+      "amenities": "وسائل الراحة",
+      "property_type": "نوع العقار",
+      "guest_rating": "تقييم الضيوف",
+      "location": "الموقع",
+      "clear_all": "مسح الكل",
+      "apply": "تطبيق"
+    },
+    "sort": {
+      "title": "الترتيب حسب",
+      "recommended": "الموصى به",
+      "price_low": "السعر (الأقل للأعلى)",
+      "price_high": "السعر (الأعلى للأقل)",
+      "rating": "التقييم",
+      "distance": "المسافة من المركز"
+    },
+    "results": {
+      "hotels_found": "تم العثور على {count} فندق",
+      "no_results": "لم يتم العثور على نتائج مطابقة لبحثك",
+      "try_again": "يرجى تعديل معايير البحث والمحاولة مرة أخرى"
+    },
+    "map_view": "عرض الخريطة",
+    "list_view": "عرض القائمة"
+  },
+  "hotel": {
+    "gallery": "معرض الصور",
+    "view_all_photos": "عرض جميع الصور",
+    "overview": "نظرة عامة",
+    "rooms": "الغرف",
+    "location": "الموقع",
+    "reviews": "التقييمات",
+    "policies": "السياسات",
+    "amenities": {
+      "title": "وسائل الراحة",
+      "view_all": "عرض الكل",
+      "wifi": "واي فاي مجاني",
+      "parking": "موقف سيارات",
+      "breakfast": "إفطار",
+      "pool": "مسبح",
+      "fitness": "مركز لياقة بدنية",
+      "spa": "سبا",
+      "restaurant": "مطعم",
+      "room_service": "خدمة الغرف",
+      "air_conditioning": "تكييف",
+      "elevator": "مصعد",
+      "reception": "استقبال 24 ساعة"
+    },
+    "room_list": {
+      "select": "اختيار",
+      "per_night": "في الليلة",
+      "includes_taxes": "شامل الضرائب",
+      "free_cancellation": "إلغاء مجاني",
+      "breakfast_included": "إفطار مشمول",
+      "sleeps": "ينام",
+      "bed_type": "نوع السرير",
+      "room_size": "مساحة الغرفة",
+      "view_details": "عرض التفاصيل"
+    },
+    "reviews": {
+      "title": "تقييمات النزلاء",
+      "overall_rating": "التقييم العام",
+      "based_on": "بناءً على {count} تقييم",
+      "write_review": "كتابة تقييم",
+      "all_reviews": "جميع التقييمات",
+      "positive": "إيجابية",
+      "negative": "سلبية",
+      "no_reviews": "لا توجد تقييمات لهذا الفندق حتى الآن",
+      "be_first": "كن أول من يقيم هذا الفندق"
+    },
+    "location": {
+      "title": "الموقع",
+      "address": "العنوان",
+      "nearby_attractions": "معالم قريبة",
+      "distance_from": "المسافة من",
+      "city_center": "وسط المدينة",
+      "airport": "المطار",
+      "public_transport": "وسائل النقل العام"
+    },
+    "policies": {
+      "title": "سياسات الفندق",
+      "check_in": "تسجيل الوصول",
+      "check_out": "تسجيل المغادرة",
+      "cancellation": "سياسة الإلغاء",
+      "children": "سياسة الأطفال",
+      "pets": "سياسة الحيوانات الأليفة",
+      "payment": "خيارات الدفع"
+    },
+    "book_now": "احجز الآن"
+  },
+  "booking": {
+    "steps": {
+      "rooms": "اختيار الغرف",
+      "details": "التفاصيل",
+      "payment": "الدفع",
+      "confirmation": "التأكيد"
+    },
+    "room_selection": {
+      "title": "اختر غرفتك",
+      "selected_rooms": "الغرف المختارة",
+      "continue": "متابعة"
+    },
+    "guest_details": {
+      "title": "معلومات الضيف",
+      "contact_info": "معلومات الاتصال",
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "special_requests": "طلبات خاصة",
+      "special_requests_placeholder": "أي طلبات خاصة للفندق؟",
+      "arrival_time": "وقت الوصول التقريبي",
+      "continue": "متابعة"
+    },
+    "payment": {
+      "title": "الدفع",
+      "summary": "ملخص الحجز",
+      "hotel": "الفندق",
+      "room_type": "نوع الغرفة",
+      "check_in": "تاريخ الوصول",
+      "check_out": "تاريخ المغادرة",
+      "nights": "الليالي",
+      "guests": "الضيوف",
+      "room_price": "سعر الغرفة",
+      "taxes": "الضرائب والرسوم",
+      "total": "المجموع",
+      "payment_method": "طريقة الدفع",
+      "card_number": "رقم البطاقة",
+      "card_holder": "اسم حامل البطاقة",
+      "expiry_date": "تاريخ الانتهاء",
+      "cvv": "رمز التحقق",
+      "pay_at_hotel": "الدفع في الفندق",
+      "terms": "بالضغط على 'تأكيد الحجز'، أنت توافق على شروط الاستخدام وسياسة الخصوصية",
+      "confirm": "تأكيد الحجز"
+    },
+    "confirmation": {
+      "title": "تم تأكيد الحجز!",
+      "thank_you": "شكراً لك على الحجز مع محجوز",
+      "booking_id": "رقم الحجز",
+      "confirmation_sent": "تم إرسال تأكيد الحجز إلى بريدك الإلكتروني",
+      "booking_details": "تفاصيل الحجز",
+      "view_booking": "عرض الحجز",
+      "back_to_home": "العودة للرئيسية"
+    }
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "personal_info": {
+      "title": "المعلومات الشخصية",
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "address": "العنوان",
+      "city": "المدينة",
+      "country": "البلد",
+      "update": "تحديث المعلومات"
+    },
+    "account_settings": {
+      "title": "إعدادات الحساب",
+      "change_password": "تغيير كلمة المرور",
+      "current_password": "كلمة المرور الحالية",
+      "new_password": "كلمة المرور الجديدة",
+      "confirm_password": "تأكيد كلمة المرور",
+      "update_password": "تحديث كلمة المرور",
+      "language": "اللغة",
+      "currency": "العملة",
+      "notifications": "الإشعارات",
+      "email_notifications": "إشعارات البريد الإلكتروني",
+      "sms_notifications": "إشعارات الرسائل القصيرة",
+      "save_changes": "حفظ التغييرات"
+    }
+  },
+  "bookings": {
+    "title": "حجوزاتي",
+    "filters": {
+      "all": "الكل",
+      "upcoming": "القادمة",
+      "completed": "المكتملة",
+      "cancelled": "الملغية"
+    },
+    "booking_card": {
+      "booking_id": "رقم الحجز",
+      "status": {
+        "confirmed": "مؤكد",
+        "pending": "قيد الانتظار",
+        "completed": "مكتمل",
+        "cancelled": "ملغي"
+      },
+      "check_in": "تاريخ الوصول",
+      "check_out": "تاريخ المغادرة",
+      "nights": "عدد الليالي",
+      "room_type": "نوع الغرفة",
+      "view_details": "عرض التفاصيل",
+      "cancel_booking": "إلغاء الحجز",
+      "add_review": "إضافة تقييم",
+      "book_again": "حجز مرة أخرى"
+    },
+    "details_modal": {
+      "title": "تفاصيل الحجز",
+      "booking_date": "تاريخ الحجز",
+      "guests": "عدد الضيوف",
+      "arrival_time": "وقت الوصول التقريبي",
+      "special_requests": "طلبات خاصة",
+      "payment_method": "طريقة الدفع",
+      "room_price": "سعر الغرفة",
+      "taxes": "الضرائب والرسوم",
+      "total": "المجموع",
+      "close": "إغلاق"
+    },
+    "cancel_modal": {
+      "title": "تأكيد إلغاء الحجز",
+      "message": "هل أنت متأكد من رغبتك في إلغاء هذا الحجز؟ يرجى العلم أنه قد يتم تطبيق سياسة الإلغاء الخاصة بالفندق.",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد الإلغاء"
+    },
+    "review_modal": {
+      "title": "إضافة تقييم لـ",
+      "overall_rating": "التقييم العام",
+      "title_label": "عنوان التقييم",
+      "title_placeholder": "عنوان قصير يلخص تجربتك",
+      "review_label": "تفاصيل التقييم",
+      "review_placeholder": "اكتب تفاصيل تجربتك في الفندق...",
+      "service_ratings": "تقييم الخدمات",
+      "cleanliness": "النظافة",
+      "comfort": "الراحة",
+      "location": "الموقع",
+      "service": "الخدمة",
+      "cancel": "إلغاء",
+      "submit": "نشر التقييم"
+    },
+    "no_bookings": {
+      "message": "لا توجد حجوزات في هذه الفئة",
+      "search_hotels": "البحث عن فنادق"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "تسجيل الدخول",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "remember_me": "تذكرني",
+      "forgot_password": "نسيت كلمة المرور؟",
+      "login_button": "تسجيل الدخول",
+      "no_account": "ليس لديك حساب؟",
+      "register": "إنشاء حساب جديد",
+      "or": "أو",
+      "google": "تسجيل الدخول باستخدام Google",
+      "facebook": "تسجيل الدخول باستخدام Facebook"
+    },
+    "register": {
+      "title": "إنشاء حساب جديد",
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "password": "كلمة المرور",
+      "confirm_password": "تأكيد كلمة المرور",
+      "terms": "بالتسجيل، أنت توافق على شروط الاستخدام وسياسة الخصوصية",
+      "register_button": "إنشاء حساب",
+      "have_account": "لديك حساب بالفعل؟",
+      "login": "تسجيل الدخول",
+      "or": "أو",
+      "google": "التسجيل باستخدام Google",
+      "facebook": "التسجيل باستخدام Facebook"
+    },
+    "forgot_password": {
+      "title": "استعادة كلمة المرور",
+      "email": "البريد الإلكتروني",
+      "submit": "إرسال رابط إعادة التعيين",
+      "back_to_login": "العودة لتسجيل الدخول"
+    }
+  },
+  "footer": {
+    "about": {
+      "title": "عن محجوز",
+      "description": "منصة حجز الفنادق الأولى في اليمن. نوفر لك أفضل الفنادق بأفضل الأسعار مع خدمة عملاء متميزة."
+    },
+    "quick_links": {
+      "title": "روابط سريعة",
+      "home": "الرئيسية",
+      "search": "البحث",
+      "about": "عن التطبيق",
+      "contact": "اتصل بنا",
+      "faq": "الأسئلة الشائعة"
+    },
+    "cities": {
+      "title": "المدن",
+      "sanaa": "فنادق صنعاء",
+      "aden": "فنادق عدن",
+      "taiz": "فنادق تعز",
+      "hodeidah": "فنادق الحديدة",
+      "mukalla": "فنادق المكلا"
+    },
+    "contact": {
+      "title": "اتصل بنا",
+      "address": "صنعاء، اليمن",
+      "phone": "+967 123 456 789",
+      "email": "info@mahjooz.com"
+    },
+    "copyright": "جميع الحقوق محفوظة",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الاستخدام"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "try_again": "حاول مرة أخرى",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "search": "بحث",
+    "filter": "فلتر",
+    "sort": "ترتيب",
+    "view": "عرض",
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "back": "رجوع",
+    "next": "التالي",
+    "submit": "إرسال",
+    "success": "تم بنجاح",
+    "warning": "تحذير",
+    "info": "معلومات",
+    "yes": "نعم",
+    "no": "لا",
+    "more": "المزيد",
+    "less": "أقل",
+    "all": "الكل",
+    "none": "لا شيء",
+    "select": "اختر",
+    "required": "مطلوب",
+    "optional": "اختياري",
+    "from": "من",
+    "to": "إلى",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "price": "السعر",
+    "total": "المجموع",
+    "quantity": "الكمية",
+    "status": "الحالة",
+    "details": "التفاصيل",
+    "description": "الوصف",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "address": "العنوان",
+    "city": "المدينة",
+    "country": "البلد",
+    "language": "اللغة",
+    "currency": "العملة",
+    "sar": "ريال سعودي",
+    "yer": "ريال يمني",
+    "usd": "دولار أمريكي"
+  }
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الإدارة - تطبيق حجز الفنادق</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Add link to Material Design Icons or Font Awesome if needed -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1><span id="app-name-display">تطبيق حجز الفنادق</span> - لوحة التحكم</h1>
+        <div id="admin-auth-section">
+            <!-- Login form will be shown here initially -->
+            <button id="login-button">تسجيل الدخول للمدير</button>
+            <div id="admin-info" style="display: none;">
+                <span id="admin-email"></span>
+                <button id="logout-button">تسجيل الخروج</button>
+            </div>
+        </div>
+    </header>
+
+    <div id="login-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>تسجيل دخول المدير</h2>
+            <form id="login-form">
+                <label for="admin-email-input">البريد الإلكتروني:</label>
+                <input type="email" id="admin-email-input" required>
+                <label for="admin-password-input">كلمة المرور:</label>
+                <input type="password" id="admin-password-input" required>
+                <button type="submit">دخول</button>
+                <p id="login-error" class="error-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <nav id="admin-nav" style="display: none;"> 
+        <ul>
+            <li><a href="#dashboard" class="nav-link active" data-page="dashboard">لوحة القيادة</a></li>
+            <li><a href="#hotels" class="nav-link" data-page="hotels">إدارة الفنادق</a></li>
+            <li><a href="#bookings" class="nav-link" data-page="bookings">إدارة الحجوزات</a></li>
+            <li><a href="#users" class="nav-link" data-page="users">إدارة المستخدمين</a></li>
+            <li><a href="#reviews" class="nav-link" data-page="reviews">إدارة المراجعات</a></li>
+            <li><a href="#settings" class="nav-link" data-page="settings">الإعدادات العامة</a></li>
+        </ul>
+    </nav>
+
+    <main id="admin-main-content" style="display: none;">
+        <!-- Content for each section will be loaded here -->
+        <section id="dashboard-page" class="page active-page">
+            <h2>لوحة القيادة</h2>
+            <p>مرحباً بك في لوحة التحكم. هنا ستظهر الإحصائيات والمعلومات الهامة.</p>
+            <!-- Add dashboard widgets here -->
+        </section>
+
+        <section id="hotels-page" class="page">
+            <h2>إدارة الفنادق</h2>
+            <button id="add-hotel-button">إضافة فندق جديد</button>
+            <div id="hotels-list">
+                <!-- Hotel list will be loaded here -->
+            </div>
+            <!-- Add Hotel Modal/Form -->
+        </section>
+
+        <section id="bookings-page" class="page">
+            <h2>إدارة الحجوزات</h2>
+            <div id="bookings-list">
+                <!-- Bookings list will be loaded here -->
+            </div>
+        </section>
+
+        <section id="users-page" class="page">
+            <h2>إدارة المستخدمين</h2>
+            <div id="users-list">
+                <!-- Users list will be loaded here -->
+            </div>
+        </section>
+
+        <section id="reviews-page" class="page">
+            <h2>إدارة المراجعات</h2>
+            <div id="reviews-list">
+                <!-- Reviews list will be loaded here -->
+            </div>
+        </section>
+
+        <section id="settings-page" class="page">
+            <h2>الإعدادات العامة</h2>
+            <form id="settings-form">
+                <!-- Settings form fields (appName, logo upload, etc.) -->
+                <label for="setting-app-name">اسم التطبيق:</label>
+                <input type="text" id="setting-app-name">
+                <!-- Add other settings fields -->
+                <button type="submit">حفظ الإعدادات</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 تطبيق حجز الفنادق</p>
+    </footer>
+
+    <!-- Firebase SDK (Client-side) -->
+    <!-- Update with your actual Firebase config -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+
+    <script src="js/firebase-init.js"></script> 
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+

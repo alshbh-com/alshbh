@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجوزاتي - محجوز</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* أنماط خاصة بصفحة الحجوزات */
+        .bookings-section {
+            padding: 2rem 0;
+        }
+        
+        .bookings-container {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+        }
+        
+        .bookings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .bookings-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .bookings-filter {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            background-color: var(--white-color);
+            border: 1px solid var(--gray-light);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+        
+        .filter-btn:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border-color: var(--primary-color);
+        }
+        
+        .booking-card {
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background-color: var(--gray-lightest);
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .booking-id {
+            font-weight: 600;
+        }
+        
+        .booking-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .status-confirmed {
+            background-color: rgba(var(--success-rgb), 0.1);
+            color: var(--success-color);
+        }
+        
+        .status-pending {
+            background-color: rgba(var(--warning-rgb), 0.1);
+            color: var(--warning-color);
+        }
+        
+        .status-completed {
+            background-color: rgba(var(--gray-dark-rgb), 0.1);
+            color: var(--gray-dark);
+        }
+        
+        .status-cancelled {
+            background-color: rgba(var(--danger-rgb), 0.1);
+            color: var(--danger-color);
+        }
+        
+        .booking-content {
+            display: flex;
+            padding: 1.5rem;
+        }
+        
+        .booking-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: var(--border-radius-sm);
+            margin-left: 1.5rem;
+        }
+        
+        .booking-details {
+            flex: 1;
+        }
+        
+        .hotel-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hotel-location {
+            display: flex;
+            align-items: center;
+            color: var(--gray-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .hotel-location i {
+            margin-left: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .booking-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .booking-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            font-weight: 600;
+        }
+        
+        .booking-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .booking-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .booking-details-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-speed);
+        }
+        
+        .booking-details-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            transform: translateY(20px);
+            transition: all var(--transition-speed);
+        }
+        
+        .booking-details-modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray-dark);
+            cursor: pointer;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .modal-hotel-info {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-hotel-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: var(--border-radius-sm);
+            margin-left: 1.5rem;
+        }
+        
+        .modal-hotel-details {
+            flex: 1;
+        }
+        
+        .modal-hotel-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-hotel-location {
+            display: flex;
+            align-items: center;
+            color: var(--gray-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-hotel-location i {
+            margin-left: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .modal-hotel-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-hotel-rating .rating-stars {
+            color: var(--secondary-color);
+            margin-left: 0.5rem;
+        }
+        
+        .booking-details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .booking-details-table th,
+        .booking-details-table td {
+            padding: 0.75rem;
+            text-align: right;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .booking-details-table th {
+            font-weight: 600;
+            color: var(--gray-dark);
+            width: 40%;
+        }
+        
+        .booking-details-table tr:last-child th,
+        .booking-details-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .cancel-booking-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-speed);
+        }
+        
+        .cancel-booking-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .cancel-modal-content {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            position: relative;
+            transform: translateY(20px);
+            transition: all var(--transition-speed);
+        }
+        
+        .cancel-booking-modal.active .cancel-modal-content {
+            transform: translateY(0);
+        }
+        
+        .cancel-modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--danger-color);
+        }
+        
+        .cancel-modal-text {
+            margin-bottom: 1.5rem;
+        }
+        
+        .cancel-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        .review-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-speed);
+        }
+        
+        .review-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .review-modal-content {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 600px;
+            padding: 2rem;
+            position: relative;
+            transform: translateY(20px);
+            transition: all var(--transition-speed);
+        }
+        
+        .review-modal.active .review-modal-content {
+            transform: translateY(0);
+        }
+        
+        .review-modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .review-form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .review-form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .rating-input {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rating-input i {
+            color: var(--gray-light);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+        
+        .rating-input i.active {
+            color: var(--secondary-color);
+        }
+        
+        .review-form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .review-form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .review-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .empty-bookings {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .empty-bookings-icon {
+            font-size: 4rem;
+            color: var(--gray-light);
+            margin-bottom: 1rem;
+        }
+        
+        .empty-bookings-text {
+            font-size: 1.25rem;
+            color: var(--gray-dark);
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .bookings-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .booking-content {
+                flex-direction: column;
+            }
+            
+            .booking-image {
+                width: 100%;
+                height: 200px;
+                margin-left: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .modal-hotel-info {
+                flex-direction: column;
+            }
+            
+            .modal-hotel-image {
+                width: 100%;
+                margin-left: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo-placeholder.png" alt="محجوز" id="app-logo">
+                    <span id="app-name">محجوز</span>
+                </a>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="search.html">البحث</a></li>
+                    <li><a href="about.html">عن التطبيق</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="ar" selected>العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                
+                <div class="auth-buttons" id="auth-buttons-container" style="display: none;">
+                    <a href="login.html" class="btn btn-outline">تسجيل الدخول</a>
+                    <a href="register.html" class="btn btn-primary">حساب جديد</a>
+                </div>
+                
+                <div class="user-profile" id="user-profile-container">
+                    <div class="user-profile-dropdown">
+                        <button class="user-profile-btn">
+                            <img src="images/user-placeholder.png" alt="الصورة الشخصية" id="user-avatar">
+                            <span id="user-name">أحمد محمد</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fas fa-user"></i> حسابي</a>
+                            <a href="bookings.html" class="active"><i class="fas fa-calendar-check"></i> حجوزاتي</a>
+                            <a href="favorites.html"><i class="fas fa-heart"></i> المفضلة</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="bookings-section">
+            <div class="container">
+                <div class="bookings-container">
+                    <div class="bookings-header">
+                        <h1 class="bookings-title">حجوزاتي</h1>
+                        <div class="bookings-filter">
+                            <button class="filter-btn active" data-filter="all">الكل</button>
+                            <button class="filter-btn" data-filter="confirmed">مؤكدة</button>
+                            <button class="filter-btn" data-filter="pending">قيد الانتظار</button>
+                            <button class="filter-btn" data-filter="completed">مكتملة</button>
+                            <button class="filter-btn" data-filter="cancelled">ملغية</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bookings-list">
+                        <!-- حجز مؤكد -->
+                        <div class="booking-card" data-status="confirmed">
+                            <div class="booking-header">
+                                <div class="booking-id">رقم الحجز: BK12345678</div>
+                                <div class="booking-status status-confirmed">مؤكد</div>
+                            </div>
+                            <div class="booking-content">
+                                <img src="images/hotels/hotel1-placeholder.jpg" alt="فندق القصر" class="booking-image">
+                                <div class="booking-details">
+                                    <h3 class="hotel-name">فندق القصر</h3>
+                                    <div class="hotel-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>صنعاء، شارع الزبيري</span>
+                                    </div>
+                                    <div class="booking-info">
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ الوصول</span>
+                                            <span class="info-value">25 مايو 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ المغادرة</span>
+                                            <span class="info-value">26 مايو 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">عدد الليالي</span>
+                                            <span class="info-value">1</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">نوع الغرفة</span>
+                                            <span class="info-value">غرفة قياسية</span>
+                                        </div>
+                                    </div>
+                                    <div class="booking-price">SAR 862.50</div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-primary view-details-btn" data-booking-id="BK12345678">عرض التفاصيل</button>
+                                        <button class="btn btn-danger cancel-booking-btn" data-booking-id="BK12345678">إلغاء الحجز</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- حجز قيد الانتظار -->
+                        <div class="booking-card" data-status="pending">
+                            <div class="booking-header">
+                                <div class="booking-id">رقم الحجز: BK98765432</div>
+                                <div class="booking-status status-pending">قيد الانتظار</div>
+                            </div>
+                            <div class="booking-content">
+                                <img src="images/hotels/hotel4-placeholder.jpg" alt="فندق النخيل" class="booking-image">
+                                <div class="booking-details">
+                                    <h3 class="hotel-name">فندق النخيل</h3>
+                                    <div class="hotel-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>المكلا، شارع الكورنيش</span>
+                                    </div>
+                                    <div class="booking-info">
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ الوصول</span>
+                                            <span class="info-value">10 يونيو 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ المغادرة</span>
+                                            <span class="info-value">15 يونيو 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">عدد الليالي</span>
+                                            <span class="info-value">5</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">نوع الغرفة</span>
+                                            <span class="info-value">جناح</span>
+                                        </div>
+                                    </div>
+                                    <div class="booking-price">SAR 8,625.00</div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-primary view-details-btn" data-booking-id="BK98765432">عرض التفاصيل</button>
+                                        <button class="btn btn-danger cancel-booking-btn" data-booking-id="BK98765432">إلغاء الحجز</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- حجز مكتمل -->
+                        <div class="booking-card" data-status="completed">
+                            <div class="booking-header">
+                                <div class="booking-id">رقم الحجز: BK87654321</div>
+                                <div class="booking-status status-completed">مكتمل</div>
+                            </div>
+                            <div class="booking-content">
+                                <img src="images/hotels/hotel2-placeholder.jpg" alt="فندق الخليج" class="booking-image">
+                                <div class="booking-details">
+                                    <h3 class="hotel-name">فندق الخليج</h3>
+                                    <div class="hotel-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>عدن، المعلا</span>
+                                    </div>
+                                    <div class="booking-info">
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ الوصول</span>
+                                            <span class="info-value">10 أبريل 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ المغادرة</span>
+                                            <span class="info-value">15 أبريل 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">عدد الليالي</span>
+                                            <span class="info-value">5</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">نوع الغرفة</span>
+                                            <span class="info-value">غرفة ديلوكس</span>
+                                        </div>
+                                    </div>
+                                    <div class="booking-price">SAR 5,462.50</div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-primary view-details-btn" data-booking-id="BK87654321">عرض التفاصيل</button>
+                                        <button class="btn btn-outline add-review-btn" data-booking-id="BK87654321" data-hotel-id="2" data-hotel-name="فندق الخليج">إضافة تقييم</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- حجز مكتمل آخر -->
+                        <div class="booking-card" data-status="completed">
+                            <div class="booking-header">
+                                <div class="booking-id">رقم الحجز: BK24681357</div>
+                                <div class="booking-status status-completed">مكتمل</div>
+                            </div>
+                            <div class="booking-content">
+                                <img src="images/hotels/hotel3-placeholder.jpg" alt="فندق السلام" class="booking-image">
+                                <div class="booking-details">
+                                    <h3 class="hotel-name">فندق السلام</h3>
+                                    <div class="hotel-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>تعز، شارع جمال</span>
+                                    </div>
+                                    <div class="booking-info">
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ الوصول</span>
+                                            <span class="info-value">1 مارس 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ المغادرة</span>
+                                            <span class="info-value">3 مارس 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">عدد الليالي</span>
+                                            <span class="info-value">2</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">نوع الغرفة</span>
+                                            <span class="info-value">غرفة قياسية</span>
+                                        </div>
+                                    </div>
+                                    <div class="booking-price">SAR 1,725.00</div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-primary view-details-btn" data-booking-id="BK24681357">عرض التفاصيل</button>
+                                        <button class="btn btn-outline add-review-btn" data-booking-id="BK24681357" data-hotel-id="3" data-hotel-name="فندق السلام">إضافة تقييم</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- حجز ملغي -->
+                        <div class="booking-card" data-status="cancelled">
+                            <div class="booking-header">
+                                <div class="booking-id">رقم الحجز: BK13579246</div>
+                                <div class="booking-status status-cancelled">ملغي</div>
+                            </div>
+                            <div class="booking-content">
+                                <img src="images/hotels/hotel5-placeholder.jpg" alt="فندق الأمل" class="booking-image">
+                                <div class="booking-details">
+                                    <h3 class="hotel-name">فندق الأمل</h3>
+                                    <div class="hotel-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>الحديدة، شارع صنعاء</span>
+                                    </div>
+                                    <div class="booking-info">
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ الوصول</span>
+                                            <span class="info-value">5 فبراير 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">تاريخ المغادرة</span>
+                                            <span class="info-value">7 فبراير 2025</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">عدد الليالي</span>
+                                            <span class="info-value">2</span>
+                                        </div>
+                                        <div class="booking-info-item">
+                                            <span class="info-label">نوع الغرفة</span>
+                                            <span class="info-value">غرفة قياسية</span>
+                                        </div>
+                                    </div>
+                                    <div class="booking-price">SAR 1,380.00</div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-primary view-details-btn" data-booking-id="BK13579246">عرض التفاصيل</button>
+                                        <button class="btn btn-outline book-again-btn" data-hotel-id="5">حجز مرة أخرى</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- نافذة تفاصيل الحجز -->
+    <div class="booking-details-modal" id="booking-details-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-details-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">تفاصيل الحجز</h2>
+            
+            <div class="modal-hotel-info">
+                <img src="images/hotels/hotel1-placeholder.jpg" alt="فندق القصر" class="modal-hotel-image" id="modal-hotel-image">
+                <div class="modal-hotel-details">
+                    <h3 class="modal-hotel-name" id="modal-hotel-name">فندق القصر</h3>
+                    <div class="modal-hotel-location" id="modal-hotel-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>صنعاء، شارع الزبيري</span>
+                    </div>
+                    <div class="modal-hotel-rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span>5 نجوم</span>
+                    </div>
+                </div>
+            </div>
+            
+            <table class="booking-details-table">
+                <tr>
+                    <th>رقم الحجز</th>
+                    <td id="modal-booking-id">BK12345678</td>
+                </tr>
+                <tr>
+                    <th>حالة الحجز</th>
+                    <td id="modal-booking-status">مؤكد</td>
+                </tr>
+                <tr>
+                    <th>تاريخ الحجز</th>
+                    <td id="modal-booking-date">24 مايو 2025</td>
+                </tr>
+                <tr>
+                    <th>تاريخ الوصول</th>
+                    <td id="modal-check-in">25 مايو 2025</td>
+                </tr>
+                <tr>
+                    <th>تاريخ المغادرة</th>
+                    <td id="modal-check-out">26 مايو 2025</td>
+                </tr>
+                <tr>
+                    <th>عدد الليالي</th>
+                    <td id="modal-nights">1</td>
+                </tr>
+                <tr>
+                    <th>نوع الغرفة</th>
+                    <td id="modal-room-type">غرفة قياسية</td>
+                </tr>
+                <tr>
+                    <th>عدد الضيوف</th>
+                    <td id="modal-guests">2 بالغين، 0 أطفال</td>
+                </tr>
+                <tr>
+                    <th>وقت الوصول التقريبي</th>
+                    <td id="modal-arrival-time">14:00 - 16:00</td>
+                </tr>
+                <tr>
+                    <th>طلبات خاصة</th>
+                    <td id="modal-special-requests">لا يوجد</td>
+                </tr>
+                <tr>
+                    <th>طريقة الدفع</th>
+                    <td id="modal-payment-method">بطاقة ائتمان</td>
+                </tr>
+                <tr>
+                    <th>سعر الغرفة</th>
+                    <td id="modal-room-price">SAR 750.00</td>
+                </tr>
+                <tr>
+                    <th>ضريبة القيمة المضافة (15%)</th>
+                    <td id="modal-tax">SAR 112.50</td>
+                </tr>
+                <tr>
+                    <th>المبلغ الإجمالي</th>
+                    <td id="modal-total" style="font-weight: 700; color: var(--primary-color);">SAR 862.50</td>
+                </tr>
+            </table>
+            
+            <div class="modal-actions" id="modal-actions">
+                <button class="btn btn-outline" id="close-details-btn">إغلاق</button>
+                <button class="btn btn-danger" id="modal-cancel-btn">إلغاء الحجز</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- نافذة إلغاء الحجز -->
+    <div class="cancel-booking-modal" id="cancel-booking-modal">
+        <div class="cancel-modal-content">
+            <h2 class="cancel-modal-title">تأكيد إلغاء الحجز</h2>
+            <p class="cancel-modal-text">هل أنت متأكد من رغبتك في إلغاء هذا الحجز؟ يرجى العلم أنه قد يتم تطبيق سياسة الإلغاء الخاصة بالفندق.</p>
+            <div class="cancel-modal-actions">
+                <button class="btn btn-outline" id="cancel-modal-close">إلغاء</button>
+                <button class="btn btn-danger" id="confirm-cancel-booking">تأكيد الإلغاء</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- نافذة إضافة تقييم -->
+    <div class="review-modal" id="review-modal">
+        <div class="review-modal-content">
+            <button class="modal-close" id="close-review-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="review-modal-title">إضافة تقييم لـ <span id="review-hotel-name">فندق الخليج</span></h2>
+            
+            <form id="review-form">
+                <div class="review-form-group">
+                    <label class="review-form-label">التقييم العام</label>
+                    <div class="rating-input" id="rating-input">
+                        <i class="fas fa-star" data-rating="1"></i>
+                        <i class="fas fa-star" data-rating="2"></i>
+                        <i class="fas fa-star" data-rating="3"></i>
+                        <i class="fas fa-star" data-rating="4"></i>
+                        <i class="fas fa-star" data-rating="5"></i>
+                    </div>
+                </div>
+                
+                <div class="review-form-group">
+                    <label for="review-title" class="review-form-label">عنوان التقييم</label>
+                    <input type="text" id="review-title" class="review-form-control" placeholder="عنوان قصير يلخص تجربتك">
+                </div>
+                
+                <div class="review-form-group">
+                    <label for="review-text" class="review-form-label">تفاصيل التقييم</label>
+                    <textarea id="review-text" class="review-form-control" rows="5" placeholder="اكتب تفاصيل تجربتك في الفندق..."></textarea>
+                </div>
+                
+                <div class="review-form-group">
+                    <label class="review-form-label">تقييم الخدمات</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                        <div style="flex: 1; min-width: 150px;">
+                            <div style="margin-bottom: 0.5rem;">النظافة</div>
+                            <div class="rating-input service-rating" id="cleanliness-rating">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star" data-rating="5"></i>
+                            </div>
+                        </div>
+                        <div style="flex: 1; min-width: 150px;">
+                            <div style="margin-bottom: 0.5rem;">الراحة</div>
+                            <div class="rating-input service-rating" id="comfort-rating">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star" data-rating="5"></i>
+                            </div>
+                        </div>
+                        <div style="flex: 1; min-width: 150px;">
+                            <div style="margin-bottom: 0.5rem;">الموقع</div>
+                            <div class="rating-input service-rating" id="location-rating">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star" data-rating="5"></i>
+                            </div>
+                        </div>
+                        <div style="flex: 1; min-width: 150px;">
+                            <div style="margin-bottom: 0.5rem;">الخدمة</div>
+                            <div class="rating-input service-rating" id="service-rating">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star" data-rating="5"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="review-modal-actions">
+                    <button type="button" class="btn btn-outline" id="cancel-review-btn">إلغاء</button>
+                    <button type="button" class="btn btn-primary" id="submit-review-btn">نشر التقييم</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo-placeholder.png" alt="محجوز" id="footer-logo">
+                        <span id="footer-app-name">محجوز</span>
+                    </div>
+                    <p>منصة حجز الفنادق الأولى في اليمن. نوفر لك أفضل الفنادق بأفضل الأسعار مع خدمة عملاء متميزة.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="search.html">البحث</a></li>
+                        <li><a href="about.html">عن التطبيق</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>المدن</h3>
+                    <ul class="footer-links">
+                        <li><a href="search.html?city=صنعاء">فنادق صنعاء</a></li>
+                        <li><a href="search.html?city=عدن">فنادق عدن</a></li>
+                        <li><a href="search.html?city=تعز">فنادق تعز</a></li>
+                        <li><a href="search.html?city=الحديدة">فنادق الحديدة</a></li>
+                        <li><a href="search.html?city=المكلا">فنادق المكلا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>اتصل بنا</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> <span id="contact-address">صنعاء، اليمن</span></li>
+                        <li><i class="fas fa-phone"></i> <span id="contact-phone">+967 123 456 789</span></li>
+                        <li><i class="fas fa-envelope"></i> <span id="contact-email">info@mahjooz.com</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2025</span> محجوز. جميع الحقوق محفوظة.</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">سياسة الخصوصية</a>
+                    <a href="terms.html">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/firebase-init.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/admin-login.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // تهيئة فلاتر الحجوزات
+            setupFilters();
+            
+            // تهيئة أزرار عرض التفاصيل
+            setupViewDetailsButtons();
+            
+            // تهيئة أزرار إلغاء الحجز
+            setupCancelButtons();
+            
+            // تهيئة أزرار إضافة تقييم
+            setupReviewButtons();
+            
+            // تهيئة أزرار الحجز مرة أخرى
+            setupBookAgainButtons();
+            
+            // تحديث السنة الحالية
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // التحقق من تسجيل الدخول
+            checkAuthStatus();
+        });
+        
+        // تهيئة فلاتر الحجوزات
+        function setupFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const bookingCards = document.querySelectorAll('.booking-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // إزالة الفئة النشطة من جميع الأزرار
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // إضافة الفئة النشطة للزر المختار
+                    button.classList.add('active');
+                    
+                    // الحصول على الفلتر المختار
+                    const filter = button.getAttribute('data-filter');
+                    
+                    // تطبيق الفلتر على بطاقات الحجز
+                    bookingCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-status') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // التحقق مما إذا كانت هناك نتائج
+                    checkEmptyResults();
+                });
+            });
+        }
+        
+        // التحقق مما إذا كانت هناك نتائج
+        function checkEmptyResults() {
+            const bookingsList = document.querySelector('.bookings-list');
+            const visibleCards = document.querySelectorAll('.booking-card[style="display: block"]');
+            
+            // إذا لم تكن هناك بطاقات مرئية، عرض رسالة "لا توجد حجوزات"
+            if (visibleCards.length === 0) {
+                // التحقق مما إذا كانت رسالة "لا توجد حجوزات" موجودة بالفعل
+                if (!document.querySelector('.empty-bookings')) {
+                    const emptyMessage = document.createElement('div');
+                    emptyMessage.className = 'empty-bookings';
+                    emptyMessage.innerHTML = `
+                        <div class="empty-bookings-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+                        <div class="empty-bookings-text">لا توجد حجوزات في هذه الفئة</div>
+                        <a href="search.html" class="btn btn-primary">البحث عن فنادق</a>
+                    `;
+                    bookingsList.appendChild(emptyMessage);
+                }
+            } else {
+                // إزالة رسالة "لا توجد حجوزات" إذا كانت موجودة
+                const emptyMessage = document.querySelector('.empty-bookings');
+                if (emptyMessage) {
+                    emptyMessage.remove();
+                }
+            }
+        }
+        
+        // تهيئة أزرار عرض التفاصيل
+        function setupViewDetailsButtons() {
+            const viewDetailsButtons = document.querySelectorAll('.view-details-btn');
+            const detailsModal = document.getElementById('booking-details-modal');
+            const closeDetailsBtn = document.getElementById('close-details-btn');
+            const closeDetailsModalBtn = document.getElementById('close-details-modal');
+            
+            // بيانات الحجوزات (في الواقع، ستأتي هذه البيانات من قاعدة البيانات)
+            const bookingsData = {
+                'BK12345678': {
+                    id: 'BK12345678',
+                    status: 'مؤكد',
+                    statusClass: 'status-confirmed',
+                    date: '24 مايو 2025',
+                    checkIn: '25 مايو 2025',
+                    checkOut: '26 مايو 2025',
+                    nights: 1,
+                    roomType: 'غرفة قياسية',
+                    guests: '2 بالغين، 0 أطفال',
+                    arrivalTime: '14:00 - 16:00',
+                    specialRequests: 'لا يوجد',
+                    paymentMethod: 'بطاقة ائتمان',
+                    roomPrice: 'SAR 750.00',
+                    tax: 'SAR 112.50',
+                    total: 'SAR 862.50',
+                    hotel: {
+                        id: 1,
+                        name: 'فندق القصر',
+                        location: 'صنعاء، شارع الزبيري',
+                        image: 'images/hotels/hotel1-placeholder.jpg',
+                        rating: 5
+                    }
+                },
+                'BK98765432': {
+                    id: 'BK98765432',
+                    status: 'قيد الانتظار',
+                    statusClass: 'status-pending',
+                    date: '23 مايو 2025',
+                    checkIn: '10 يونيو 2025',
+                    checkOut: '15 يونيو 2025',
+                    nights: 5,
+                    roomType: 'جناح',
+                    guests: '2 بالغين، 1 طفل',
+                    arrivalTime: '16:00 - 18:00',
+                    specialRequests: 'غرفة في الطابق العلوي مع إطلالة على البحر',
+                    paymentMethod: 'الدفع في الفندق',
+                    roomPrice: 'SAR 7,500.00',
+                    tax: 'SAR 1,125.00',
+                    total: 'SAR 8,625.00',
+                    hotel: {
+                        id: 4,
+                        name: 'فندق النخيل',
+                        location: 'المكلا، شارع الكورنيش',
+                        image: 'images/hotels/hotel4-placeholder.jpg',
+                        rating: 4
+                    }
+                },
+                'BK87654321': {
+                    id: 'BK87654321',
+                    status: 'مكتمل',
+                    statusClass: 'status-completed',
+                    date: '1 أبريل 2025',
+                    checkIn: '10 أبريل 2025',
+                    checkOut: '15 أبريل 2025',
+                    nights: 5,
+                    roomType: 'غرفة ديلوكس',
+                    guests: '2 بالغين، 0 أطفال',
+                    arrivalTime: '12:00 - 14:00',
+                    specialRequests: 'لا يوجد',
+                    paymentMethod: 'بطاقة ائتمان',
+                    roomPrice: 'SAR 4,750.00',
+                    tax: 'SAR 712.50',
+                    total: 'SAR 5,462.50',
+                    hotel: {
+                        id: 2,
+                        name: 'فندق الخليج',
+                        location: 'عدن، المعلا',
+                        image: 'images/hotels/hotel2-placeholder.jpg',
+                        rating: 4
+                    }
+                },
+                'BK24681357': {
+                    id: 'BK24681357',
+                    status: 'مكتمل',
+                    statusClass: 'status-completed',
+                    date: '15 فبراير 2025',
+                    checkIn: '1 مارس 2025',
+                    checkOut: '3 مارس 2025',
+                    nights: 2,
+                    roomType: 'غرفة قياسية',
+                    guests: '1 بالغ، 0 أطفال',
+                    arrivalTime: '18:00 - 20:00',
+                    specialRequests: 'لا يوجد',
+                    paymentMethod: 'بطاقة ائتمان',
+                    roomPrice: 'SAR 1,500.00',
+                    tax: 'SAR 225.00',
+                    total: 'SAR 1,725.00',
+                    hotel: {
+                        id: 3,
+                        name: 'فندق السلام',
+                        location: 'تعز، شارع جمال',
+                        image: 'images/hotels/hotel3-placeholder.jpg',
+                        rating: 3
+                    }
+                },
+                'BK13579246': {
+                    id: 'BK13579246',
+                    status: 'ملغي',
+                    statusClass: 'status-cancelled',
+                    date: '10 يناير 2025',
+                    checkIn: '5 فبراير 2025',
+                    checkOut: '7 فبراير 2025',
+                    nights: 2,
+                    roomType: 'غرفة قياسية',
+                    guests: '2 بالغين، 1 طفل',
+                    arrivalTime: '14:00 - 16:00',
+                    specialRequests: 'سرير إضافي للطفل',
+                    paymentMethod: 'بطاقة ائتمان',
+                    roomPrice: 'SAR 1,200.00',
+                    tax: 'SAR 180.00',
+                    total: 'SAR 1,380.00',
+                    hotel: {
+                        id: 5,
+                        name: 'فندق الأمل',
+                        location: 'الحديدة، شارع صنعاء',
+                        image: 'images/hotels/hotel5-placeholder.jpg',
+                        rating: 3
+                    }
+                }
+            };
+            
+            // إضافة مستمعي الأحداث لأزرار عرض التفاصيل
+            viewDetailsButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const bookingId = button.getAttribute('data-booking-id');
+                    const bookingData = bookingsData[bookingId];
+                    
+                    if (bookingData) {
+                        // تحديث بيانات النافذة المنبثقة
+                        updateModalDetails(bookingData);
+                        
+                        // فتح النافذة المنبثقة
+                        detailsModal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+            
+            // إغلاق النافذة المنبثقة
+            closeDetailsBtn.addEventListener('click', () => {
+                detailsModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            closeDetailsModalBtn.addEventListener('click', () => {
+                detailsModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // إغلاق النافذة المنبثقة عند النقر خارجها
+            detailsModal.addEventListener('click', (e) => {
+                if (e.target === detailsModal) {
+                    detailsModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+        
+        // تحديث بيانات نافذة التفاصيل
+        function updateModalDetails(bookingData) {
+            // تحديث بيانات الفندق
+            document.getElementById('modal-hotel-image').src = bookingData.hotel.image;
+            document.getElementById('modal-hotel-name').textContent = bookingData.hotel.name;
+            document.getElementById('modal-hotel-location').querySelector('span').textContent = bookingData.hotel.location;
+            
+            // تحديث بيانات الحجز
+            document.getElementById('modal-booking-id').textContent = bookingData.id;
+            document.getElementById('modal-booking-status').textContent = bookingData.status;
+            document.getElementById('modal-booking-date').textContent = bookingData.date;
+            document.getElementById('modal-check-in').textContent = bookingData.checkIn;
+            document.getElementById('modal-check-out').textContent = bookingData.checkOut;
+            document.getElementById('modal-nights').textContent = bookingData.nights;
+            document.getElementById('modal-room-type').textContent = bookingData.roomType;
+            document.getElementById('modal-guests').textContent = bookingData.guests;
+            document.getElementById('modal-arrival-time').textContent = bookingData.arrivalTime;
+            document.getElementById('modal-special-requests').textContent = bookingData.specialRequests;
+            document.getElementById('modal-payment-method').textContent = bookingData.paymentMethod;
+            document.getElementById('modal-room-price').textContent = bookingData.roomPrice;
+            document.getElementById('modal-tax').textContent = bookingData.tax;
+            document.getElementById('modal-total').textContent = bookingData.total;
+            
+            // تحديث أزرار الإجراءات
+            const modalActions = document.getElementById('modal-actions');
+            const modalCancelBtn = document.getElementById('modal-cancel-btn');
+            
+            // إخفاء زر الإلغاء إذا كان الحجز مكتملًا أو ملغيًا
+            if (bookingData.status === 'مكتمل' || bookingData.status === 'ملغي') {
+                modalCancelBtn.style.display = 'none';
+            } else {
+                modalCancelBtn.style.display = 'inline-block';
+                modalCancelBtn.setAttribute('data-booking-id', bookingData.id);
+            }
+        }
+        
+        // تهيئة أزرار إلغاء الحجز
+        function setupCancelButtons() {
+            const cancelButtons = document.querySelectorAll('.cancel-booking-btn');
+            const modalCancelBtn = document.getElementById('modal-cancel-btn');
+            const cancelModal = document.getElementById('cancel-booking-modal');
+            const cancelModalClose = document.getElementById('cancel-modal-close');
+            const confirmCancelBtn = document.getElementById('confirm-cancel-booking');
+            
+            // متغير لتخزين معرف الحجز الحالي
+            let currentBookingId = '';
+            
+            // إضافة مستمعي الأحداث لأزرار إلغاء الحجز
+            cancelButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    currentBookingId = button.getAttribute('data-booking-id');
+                    cancelModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // إضافة مستمع الحدث لزر الإلغاء في نافذة التفاصيل
+            modalCancelBtn.addEventListener('click', () => {
+                currentBookingId = modalCancelBtn.getAttribute('data-booking-id');
+                document.getElementById('booking-details-modal').classList.remove('active');
+                cancelModal.classList.add('active');
+            });
+            
+            // إغلاق نافذة تأكيد الإلغاء
+            cancelModalClose.addEventListener('click', () => {
+                cancelModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // إغلاق نافذة تأكيد الإلغاء عند النقر خارجها
+            cancelModal.addEventListener('click', (e) => {
+                if (e.target === cancelModal) {
+                    cancelModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // تأكيد إلغاء الحجز
+            confirmCancelBtn.addEventListener('click', () => {
+                if (currentBookingId) {
+                    cancelBooking(currentBookingId);
+                }
+            });
+        }
+        
+        // إلغاء الحجز
+        function cancelBooking(bookingId) {
+            // هنا يتم إلغاء الحجز في قاعدة البيانات
+            console.log('إلغاء الحجز:', bookingId);
+            
+            // إغلاق نافذة تأكيد الإلغاء
+            document.getElementById('cancel-booking-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // تحديث حالة الحجز في الواجهة
+            const bookingCard = document.querySelector(`.booking-card .booking-header .booking-id:contains("${bookingId}")`).closest('.booking-card');
+            if (bookingCard) {
+                // تحديث حالة الحجز
+                const statusElement = bookingCard.querySelector('.booking-status');
+                statusElement.textContent = 'ملغي';
+                statusElement.className = 'booking-status status-cancelled';
+                
+                // تحديث سمة الحالة
+                bookingCard.setAttribute('data-status', 'cancelled');
+                
+                // تحديث أزرار الإجراءات
+                const actionsContainer = bookingCard.querySelector('.booking-actions');
+                actionsContainer.innerHTML = `
+                    <button class="btn btn-primary view-details-btn" data-booking-id="${bookingId}">عرض التفاصيل</button>
+                    <button class="btn btn-outline book-again-btn" data-hotel-id="${bookingCard.getAttribute('data-hotel-id') || '1'}">حجز مرة أخرى</button>
+                `;
+                
+                // إعادة تهيئة أزرار عرض التفاصيل
+                setupViewDetailsButtons();
+                
+                // إعادة تهيئة أزرار الحجز مرة أخرى
+                setupBookAgainButtons();
+                
+                // تطبيق الفلتر الحالي
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                if (activeFilter !== 'all' && activeFilter !== 'cancelled') {
+                    bookingCard.style.display = 'none';
+                    checkEmptyResults();
+                }
+            }
+            
+            // عرض رسالة نجاح
+            alert('تم إلغاء الحجز بنجاح.');
+        }
+        
+        // تهيئة أزرار إضافة تقييم
+        function setupReviewButtons() {
+            const reviewButtons = document.querySelectorAll('.add-review-btn');
+            const reviewModal = document.getElementById('review-modal');
+            const closeReviewModal = document.getElementById('close-review-modal');
+            const cancelReviewBtn = document.getElementById('cancel-review-btn');
+            const submitReviewBtn = document.getElementById('submit-review-btn');
+            const ratingInputs = document.querySelectorAll('.rating-input');
+            
+            // متغيرات لتخزين بيانات التقييم الحالي
+            let currentBookingId = '';
+            let currentHotelId = '';
+            let currentRating = 0;
+            
+            // إضافة مستمعي الأحداث لأزرار إضافة تقييم
+            reviewButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    currentBookingId = button.getAttribute('data-booking-id');
+                    currentHotelId = button.getAttribute('data-hotel-id');
+                    const hotelName = button.getAttribute('data-hotel-name');
+                    
+                    // تحديث عنوان النافذة المنبثقة
+                    document.getElementById('review-hotel-name').textContent = hotelName;
+                    
+                    // إعادة تعيين نموذج التقييم
+                    document.getElementById('review-form').reset();
+                    resetRatingStars();
+                    
+                    // فتح النافذة المنبثقة
+                    reviewModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // تهيئة نجوم التقييم
+            ratingInputs.forEach(ratingInput => {
+                const stars = ratingInput.querySelectorAll('i');
+                
+                stars.forEach(star => {
+                    star.addEventListener('mouseover', () => {
+                        const rating = parseInt(star.getAttribute('data-rating'));
+                        highlightStars(stars, rating);
+                    });
+                    
+                    star.addEventListener('mouseout', () => {
+                        // إعادة تعيين النجوم إلى الحالة السابقة
+                        if (ratingInput.id === 'rating-input') {
+                            highlightStars(stars, currentRating);
+                        } else {
+                            // للتقييمات الفرعية، استخدم السمة data-selected
+                            const selectedRating = parseInt(ratingInput.getAttribute('data-selected') || '0');
+                            highlightStars(stars, selectedRating);
+                        }
+                    });
+                    
+                    star.addEventListener('click', () => {
+                        const rating = parseInt(star.getAttribute('data-rating'));
+                        
+                        if (ratingInput.id === 'rating-input') {
+                            currentRating = rating;
+                        } else {
+                            // للتقييمات الفرعية، حفظ التقييم في السمة data-selected
+                            ratingInput.setAttribute('data-selected', rating.toString());
+                        }
+                        
+                        highlightStars(stars, rating);
+                    });
+                });
+            });
+            
+            // إغلاق نافذة التقييم
+            closeReviewModal.addEventListener('click', () => {
+                reviewModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            cancelReviewBtn.addEventListener('click', () => {
+                reviewModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // إغلاق نافذة التقييم عند النقر خارجها
+            reviewModal.addEventListener('click', (e) => {
+                if (e.target === reviewModal) {
+                    reviewModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // إرسال التقييم
+            submitReviewBtn.addEventListener('click', () => {
+                // التحقق من صحة البيانات
+                if (!validateReviewForm()) {
+                    return;
+                }
+                
+                // جمع بيانات التقييم
+                const reviewData = {
+                    bookingId: currentBookingId,
+                    hotelId: currentHotelId,
+                    rating: currentRating,
+                    title: document.getElementById('review-title').value,
+                    text: document.getElementById('review-text').value,
+                    serviceRatings: {
+                        cleanliness: parseInt(document.getElementById('cleanliness-rating').getAttribute('data-selected') || '0'),
+                        comfort: parseInt(document.getElementById('comfort-rating').getAttribute('data-selected') || '0'),
+                        location: parseInt(document.getElementById('location-rating').getAttribute('data-selected') || '0'),
+                        service: parseInt(document.getElementById('service-rating').getAttribute('data-selected') || '0')
+                    }
+                };
+                
+                // إرسال التقييم
+                submitReview(reviewData);
+            });
+        }
+        
+        // إبراز النجوم
+        function highlightStars(stars, rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        // إعادة تعيين نجوم التقييم
+        function resetRatingStars() {
+            const ratingInputs = document.querySelectorAll('.rating-input');
+            
+            ratingInputs.forEach(ratingInput => {
+                const stars = ratingInput.querySelectorAll('i');
+                
+                // إزالة الفئة النشطة من جميع النجوم
+                stars.forEach(star => {
+                    star.classList.remove('active');
+                });
+                
+                // إعادة تعيين المتغيرات
+                if (ratingInput.id === 'rating-input') {
+                    currentRating = 0;
+                } else {
+                    ratingInput.removeAttribute('data-selected');
+                }
+            });
+        }
+        
+        // التحقق من صحة نموذج التقييم
+        function validateReviewForm() {
+            // التحقق من التقييم العام
+            if (currentRating === 0) {
+                alert('يرجى تحديد التقييم العام.');
+                return false;
+            }
+            
+            // التحقق من عنوان التقييم
+            const reviewTitle = document.getElementById('review-title').value;
+            if (!reviewTitle) {
+                alert('يرجى إدخال عنوان للتقييم.');
+                return false;
+            }
+            
+            // التحقق من نص التقييم
+            const reviewText = document.getElementById('review-text').value;
+            if (!reviewText) {
+                alert('يرجى إدخال تفاصيل التقييم.');
+                return false;
+            }
+            
+            // التحقق من تقييمات الخدمات
+            const serviceRatings = [
+                parseInt(document.getElementById('cleanliness-rating').getAttribute('data-selected') || '0'),
+                parseInt(document.getElementById('comfort-rating').getAttribute('data-selected') || '0'),
+                parseInt(document.getElementById('location-rating').getAttribute('data-selected') || '0'),
+                parseInt(document.getElementById('service-rating').getAttribute('data-selected') || '0')
+            ];
+            
+            if (serviceRatings.some(rating => rating === 0)) {
+                alert('يرجى تقييم جميع الخدمات.');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // إرسال التقييم
+        function submitReview(reviewData) {
+            // هنا يتم إرسال التقييم إلى قاعدة البيانات
+            console.log('إرسال التقييم:', reviewData);
+            
+            // إغلاق نافذة التقييم
+            document.getElementById('review-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // تحديث زر إضافة التقييم
+            const reviewButton = document.querySelector(`.add-review-btn[data-booking-id="${reviewData.bookingId}"]`);
+            if (reviewButton) {
+                reviewButton.textContent = 'تم التقييم';
+                reviewButton.disabled = true;
+                reviewButton.classList.remove('btn-outline');
+                reviewButton.classList.add('btn-success');
+            }
+            
+            // عرض رسالة نجاح
+            alert('تم إرسال التقييم بنجاح. شكرًا لك!');
+        }
+        
+        // تهيئة أزرار الحجز مرة أخرى
+        function setupBookAgainButtons() {
+            const bookAgainButtons = document.querySelectorAll('.book-again-btn');
+            
+            bookAgainButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const hotelId = button.getAttribute('data-hotel-id');
+                    
+                    // إعادة توجيه المستخدم إلى صفحة الفندق
+                    window.location.href = `hotel.html?id=${hotelId}`;
+                });
+            });
+        }
+        
+        // التحقق من حالة تسجيل الدخول
+        function checkAuthStatus() {
+            // التحقق مما إذا كان المستخدم مسجل الدخول
+            const isLoggedIn = isUserLoggedIn();
+            
+            if (!isLoggedIn) {
+                // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+                window.location.href = 'login.html?redirect=bookings.html';
+            }
+        }
+        
+        // التحقق مما إذا كان المستخدم مسجل الدخول
+        function isUserLoggedIn() {
+            // في هذا المثال، نفترض أن المستخدم مسجل الدخول
+            return true;
+        }
+        
+        // إضافة طريقة contains للعناصر
+        Element.prototype.contains = function(text) {
+            return this.textContent.includes(text);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجز الفندق - محجوز</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* أنماط خاصة بصفحة الحجز */
+        .booking-process {
+            padding: 2rem 0;
+        }
+        
+        .booking-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .booking-steps::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--gray-light);
+            z-index: 1;
+        }
+        
+        .booking-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 20%;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--white-color);
+            border: 2px solid var(--gray-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            transition: all var(--transition-speed);
+        }
+        
+        .step-label {
+            font-size: 0.875rem;
+            text-align: center;
+            color: var(--gray-dark);
+            transition: all var(--transition-speed);
+        }
+        
+        .booking-step.active .step-number {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--white-color);
+        }
+        
+        .booking-step.active .step-label {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .booking-step.completed .step-number {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: var(--white-color);
+        }
+        
+        .booking-step.completed .step-number::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+        
+        .booking-content {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .booking-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .booking-summary {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .booking-details {
+            flex: 2;
+        }
+        
+        .booking-sidebar {
+            flex: 1;
+        }
+        
+        .hotel-card-horizontal {
+            display: flex;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hotel-image-small {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .hotel-info-small {
+            flex: 1;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .hotel-name-small {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hotel-location-small {
+            display: flex;
+            align-items: center;
+            color: var(--gray-dark);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hotel-location-small i {
+            margin-left: 0.25rem;
+            color: var(--primary-color);
+        }
+        
+        .hotel-rating-small {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rating-stars-small {
+            color: var(--secondary-color);
+            font-size: 0.875rem;
+            margin-left: 0.5rem;
+        }
+        
+        .booking-dates-small {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            font-size: 0.875rem;
+        }
+        
+        .booking-date-small {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .date-label {
+            color: var(--gray-dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .date-value {
+            font-weight: 600;
+        }
+        
+        .room-details {
+            margin-bottom: 1.5rem;
+        }
+        
+        .room-card {
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-lg);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .room-name-small {
+            font-weight: 600;
+        }
+        
+        .room-price-small {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .room-info-small {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+        }
+        
+        .room-info-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .room-info-item i {
+            margin-left: 0.25rem;
+            color: var(--primary-color);
+        }
+        
+        .guest-form {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        .special-requests {
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-methods {
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+        
+        .payment-method:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .payment-method.active {
+            border-color: var(--primary-color);
+            background-color: rgba(var(--primary-rgb), 0.05);
+        }
+        
+        .payment-method-radio {
+            margin-left: 1rem;
+        }
+        
+        .payment-method-icon {
+            margin-left: 1rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .payment-method-details {
+            flex: 1;
+        }
+        
+        .payment-method-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .payment-method-description {
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+        }
+        
+        .credit-card-form {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            display: none;
+        }
+        
+        .credit-card-form.active {
+            display: block;
+        }
+        
+        .card-icons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-icon {
+            font-size: 1.5rem;
+        }
+        
+        .booking-price-summary {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+            position: sticky;
+            top: 90px;
+        }
+        
+        .price-summary-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .price-summary-list {
+            margin-bottom: 1rem;
+        }
+        
+        .price-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .price-summary-item-label {
+            color: var(--gray-dark);
+        }
+        
+        .price-summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.125rem;
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--gray-light);
+        }
+        
+        .booking-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .booking-confirmation {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .confirmation-icon {
+            font-size: 5rem;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+        
+        .confirmation-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .confirmation-message {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+        
+        .booking-details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        
+        .booking-details-table th,
+        .booking-details-table td {
+            padding: 0.75rem;
+            text-align: right;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .booking-details-table th {
+            font-weight: 600;
+            color: var(--gray-dark);
+            width: 40%;
+        }
+        
+        @media (max-width: 992px) {
+            .booking-summary {
+                flex-direction: column;
+            }
+            
+            .booking-steps {
+                overflow-x: auto;
+                padding-bottom: 1rem;
+            }
+            
+            .booking-step {
+                min-width: 100px;
+            }
+            
+            .hotel-image-small {
+                width: 100px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo-placeholder.png" alt="محجوز" id="app-logo">
+                    <span id="app-name">محجوز</span>
+                </a>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="search.html">البحث</a></li>
+                    <li><a href="about.html">عن التطبيق</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="ar" selected>العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                
+                <div class="auth-buttons" id="auth-buttons-container">
+                    <a href="login.html" class="btn btn-outline">تسجيل الدخول</a>
+                    <a href="register.html" class="btn btn-primary">حساب جديد</a>
+                </div>
+                
+                <div class="user-profile" id="user-profile-container" style="display: none;">
+                    <div class="user-profile-dropdown">
+                        <button class="user-profile-btn">
+                            <img src="images/user-placeholder.png" alt="الصورة الشخصية" id="user-avatar">
+                            <span id="user-name">اسم المستخدم</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fas fa-user"></i> حسابي</a>
+                            <a href="bookings.html"><i class="fas fa-calendar-check"></i> حجوزاتي</a>
+                            <a href="favorites.html"><i class="fas fa-heart"></i> المفضلة</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="booking-process">
+            <div class="container">
+                <div class="booking-steps">
+                    <div class="booking-step active" id="step-1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">اختيار الغرفة</div>
+                    </div>
+                    <div class="booking-step" id="step-2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">معلومات الضيف</div>
+                    </div>
+                    <div class="booking-step" id="step-3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">الدفع</div>
+                    </div>
+                    <div class="booking-step" id="step-4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">المراجعة</div>
+                    </div>
+                    <div class="booking-step" id="step-5">
+                        <div class="step-number">5</div>
+                        <div class="step-label">التأكيد</div>
+                    </div>
+                </div>
+                
+                <!-- الخطوة 1: اختيار الغرفة -->
+                <div class="booking-content" id="step-1-content">
+                    <h2 class="booking-title">اختيار الغرفة</h2>
+                    
+                    <div class="booking-summary">
+                        <div class="booking-details">
+                            <div class="hotel-card-horizontal">
+                                <img src="images/hotels/hotel1-placeholder.jpg" alt="فندق القصر" class="hotel-image-small">
+                                <div class="hotel-info-small">
+                                    <h3 class="hotel-name-small">فندق القصر</h3>
+                                    <div class="hotel-location-small">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>صنعاء، شارع الزبيري</span>
+                                    </div>
+                                    <div class="hotel-rating-small">
+                                        <div class="rating-stars-small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span>5 نجوم</span>
+                                    </div>
+                                    <div class="booking-dates-small">
+                                        <div class="booking-date-small">
+                                            <span class="date-label">تاريخ الوصول</span>
+                                            <span class="date-value" id="check-in-display">25 مايو 2025</span>
+                                        </div>
+                                        <div class="booking-date-small">
+                                            <span class="date-label">تاريخ المغادرة</span>
+                                            <span class="date-value" id="check-out-display">26 مايو 2025</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="room-details">
+                                <h3>الغرف المتاحة</h3>
+                                
+                                <div class="room-card">
+                                    <div class="room-header">
+                                        <div class="room-name-small">غرفة قياسية</div>
+                                        <div class="room-price-small">SAR 750 / ليلة</div>
+                                    </div>
+                                    <div class="room-info-small">
+                                        <div class="room-info-item">
+                                            <i class="fas fa-bed"></i>
+                                            <span>سرير مزدوج</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-user"></i>
+                                            <span>شخصان</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-wifi"></i>
+                                            <span>واي فاي مجاني</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-snowflake"></i>
+                                            <span>تكييف</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: left; margin-top: 1rem;">
+                                        <button class="btn btn-primary" onclick="selectRoom('standard')">اختيار</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="room-card">
+                                    <div class="room-header">
+                                        <div class="room-name-small">غرفة ديلوكس</div>
+                                        <div class="room-price-small">SAR 950 / ليلة</div>
+                                    </div>
+                                    <div class="room-info-small">
+                                        <div class="room-info-item">
+                                            <i class="fas fa-bed"></i>
+                                            <span>سرير كينج</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-user"></i>
+                                            <span>شخصان</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-wifi"></i>
+                                            <span>واي فاي مجاني</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-snowflake"></i>
+                                            <span>تكييف</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-bath"></i>
+                                            <span>جاكوزي</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: left; margin-top: 1rem;">
+                                        <button class="btn btn-primary" onclick="selectRoom('deluxe')">اختيار</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="room-card">
+                                    <div class="room-header">
+                                        <div class="room-name-small">جناح</div>
+                                        <div class="room-price-small">SAR 1,500 / ليلة</div>
+                                    </div>
+                                    <div class="room-info-small">
+                                        <div class="room-info-item">
+                                            <i class="fas fa-bed"></i>
+                                            <span>سرير كينج</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-user"></i>
+                                            <span>3 أشخاص</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-couch"></i>
+                                            <span>غرفة معيشة</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-wifi"></i>
+                                            <span>واي فاي مجاني</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-snowflake"></i>
+                                            <span>تكييف</span>
+                                        </div>
+                                        <div class="room-info-item">
+                                            <i class="fas fa-bath"></i>
+                                            <span>جاكوزي</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: left; margin-top: 1rem;">
+                                        <button class="btn btn-primary" onclick="selectRoom('suite')">اختيار</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-sidebar">
+                            <div class="booking-price-summary">
+                                <h3 class="price-summary-title">ملخص الحجز</h3>
+                                <div class="price-summary-list">
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">تاريخ الوصول</span>
+                                        <span id="summary-check-in">25 مايو 2025</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">تاريخ المغادرة</span>
+                                        <span id="summary-check-out">26 مايو 2025</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">عدد الليالي</span>
+                                        <span id="summary-nights">1</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">عدد الضيوف</span>
+                                        <span id="summary-guests">2 بالغين، 0 أطفال</span>
+                                    </div>
+                                </div>
+                                <div class="price-summary-list">
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">سعر الغرفة</span>
+                                        <span id="summary-room-price">SAR 0</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">ضريبة القيمة المضافة (15%)</span>
+                                        <span id="summary-tax">SAR 0</span>
+                                    </div>
+                                </div>
+                                <div class="price-summary-total">
+                                    <span>الإجمالي</span>
+                                    <span id="summary-total">SAR 0</span>
+                                </div>
+                                
+                                <p style="font-size: 0.875rem; color: var(--gray-dark); margin-top: 1rem;">
+                                    يرجى اختيار غرفة للمتابعة.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- الخطوة 2: معلومات الضيف -->
+                <div class="booking-content" id="step-2-content" style="display: none;">
+                    <h2 class="booking-title">معلومات الضيف</h2>
+                    
+                    <div class="booking-summary">
+                        <div class="booking-details">
+                            <div class="hotel-card-horizontal">
+                                <img src="images/hotels/hotel1-placeholder.jpg" alt="فندق القصر" class="hotel-image-small">
+                                <div class="hotel-info-small">
+                                    <h3 class="hotel-name-small">فندق القصر</h3>
+                                    <div class="hotel-location-small">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>صنعاء، شارع الزبيري</span>
+                                    </div>
+                                    <div class="hotel-rating-small">
+                                        <div class="rating-stars-small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span>5 نجوم</span>
+                                    </div>
+                                    <div class="booking-dates-small">
+                                        <div class="booking-date-small">
+                                            <span class="date-label">تاريخ الوصول</span>
+                                            <span class="date-value" id="check-in-display-2">25 مايو 2025</span>
+                                        </div>
+                                        <div class="booking-date-small">
+                                            <span class="date-label">تاريخ المغادرة</span>
+                                            <span class="date-value" id="check-out-display-2">26 مايو 2025</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="room-card" id="selected-room-card">
+                                <!-- هنا سيتم عرض الغرفة المختارة -->
+                            </div>
+                            
+                            <div class="guest-form">
+                                <h3>معلومات الضيف الرئيسي</h3>
+                                <form id="guest-info-form">
+                                    <div class="form-row">
+                                        <div class="form-col">
+                                            <div class="form-group">
+                                                <label for="guest-name" class="form-label">الاسم الكامل</label>
+                                                <input type="text" id="guest-name" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-col">
+                                            <div class="form-group">
+                                                <label for="guest-email" class="form-label">البريد الإلكتروني</label>
+                                                <input type="email" id="guest-email" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-col">
+                                            <div class="form-group">
+                                                <label for="guest-phone" class="form-label">رقم الهاتف</label>
+                                                <input type="tel" id="guest-phone" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-col">
+                                            <div class="form-group">
+                                                <label for="guest-nationality" class="form-label">الجنسية</label>
+                                                <select id="guest-nationality" class="form-control" required>
+                                                    <option value="">اختر الجنسية</option>
+                                                    <option value="YE">يمني</option>
+                                                    <option value="SA">سعودي</option>
+                                                    <option value="AE">إماراتي</option>
+                                                    <option value="KW">كويتي</option>
+                                                    <option value="BH">بحريني</option>
+                                                    <option value="QA">قطري</option>
+                                                    <option value="OM">عماني</option>
+                                                    <option value="JO">أردني</option>
+                                                    <option value="EG">مصري</option>
+                                                    <option value="other">أخرى</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="arrival-time" class="form-label">وقت الوصول التقريبي</label>
+                                        <select id="arrival-time" class="form-control">
+                                            <option value="">اختر وقت الوصول</option>
+                                            <option value="12-14">12:00 - 14:00</option>
+                                            <option value="14-16">14:00 - 16:00</option>
+                                            <option value="16-18">16:00 - 18:00</option>
+                                            <option value="18-20">18:00 - 20:00</option>
+                                            <option value="20-22">20:00 - 22:00</option>
+                                            <option value="22-00">22:00 - 00:00</option>
+                                            <option value="00-02">00:00 - 02:00</option>
+                                            <option value="late">بعد 02:00 صباحًا</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="special-requests">
+                                <h3>طلبات خاصة</h3>
+                                <div class="form-group">
+                                    <textarea id="special-requests" class="form-control" rows="4" placeholder="أي طلبات خاصة للفندق؟ (غير مضمونة ولكن سنبذل قصارى جهدنا لتلبيتها)"></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="booking-actions">
+                                <button class="btn btn-outline" onclick="goToStep(1)">رجوع</button>
+                                <button class="btn btn-primary" onclick="goToStep(3)">متابعة إلى الدفع</button>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-sidebar">
+                            <div class="booking-price-summary">
+                                <h3 class="price-summary-title">ملخص الحجز</h3>
+                                <div class="price-summary-list">
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">تاريخ الوصول</span>
+                                        <span id="summary-check-in-2">25 مايو 2025</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">تاريخ المغادرة</span>
+                                        <span id="summary-check-out-2">26 مايو 2025</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">عدد الليالي</span>
+                                        <span id="summary-nights-2">1</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">عدد الضيوف</span>
+                                        <span id="summary-guests-2">2 بالغين، 0 أطفال</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">نوع الغرفة</span>
+                                        <span id="summary-room-type-2">غرفة قياسية</span>
+                                    </div>
+                                </div>
+                                <div class="price-summary-list">
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">سعر الغرفة</span>
+                                        <span id="summary-room-price-2">SAR 750</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">ضريبة القيمة المضافة (15%)</span>
+                                        <span id="summary-tax-2">SAR 112.50</span>
+                                    </div>
+                                </div>
+                                <div class="price-summary-total">
+                                    <span>الإجمالي</span>
+                                    <span id="summary-total-2">SAR 862.50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- الخطوة 3: الدفع -->
+                <div class="booking-content" id="step-3-content" style="display: none;">
+                    <h2 class="booking-title">الدفع</h2>
+                    
+                    <div class="booking-summary">
+                        <div class="booking-details">
+                            <div class="payment-methods">
+                                <h3>اختر طريقة الدفع</h3>
+                                
+                                <div class="payment-method active" data-method="credit-card">
+                                    <input type="radio" name="payment-method" id="credit-card" class="payment-method-radio" checked>
+                                    <div class="payment-method-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="payment-method-details">
+                                        <div class="payment-method-title">بطاقة ائتمان أو بطاقة مدى</div>
+                                        <div class="payment-method-description">الدفع الآمن باستخدام بطاقة الائتمان أو بطاقة مدى</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-method" data-method="apple-pay">
+                                    <input type="radio" name="payment-method" id="apple-pay" class="payment-method-radio">
+                                    <div class="payment-method-icon">
+                                        <i class="fab fa-apple-pay"></i>
+                                    </div>
+                                    <div class="payment-method-details">
+                                        <div class="payment-method-title">Apple Pay</div>
+                                        <div class="payment-method-description">الدفع السريع والآمن باستخدام Apple Pay</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-method" data-method="pay-at-hotel">
+                                    <input type="radio" name="payment-method" id="pay-at-hotel" class="payment-method-radio">
+                                    <div class="payment-method-icon">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                    </div>
+                                    <div class="payment-method-details">
+                                        <div class="payment-method-title">الدفع في الفندق</div>
+                                        <div class="payment-method-description">ادفع مباشرة في الفندق عند الوصول</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="credit-card-form active" id="credit-card-form">
+                                    <div class="card-icons">
+                                        <i class="fab fa-cc-visa card-icon"></i>
+                                        <i class="fab fa-cc-mastercard card-icon"></i>
+                                        <i class="fab fa-cc-amex card-icon"></i>
+                                        <i class="fab fa-cc-discover card-icon"></i>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="card-number" class="form-label">رقم البطاقة</label>
+                                        <input type="text" id="card-number" class="form-control" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-col">
+                                            <div class="form-group">
+                                                <label for="card-name" class="form-label">الاسم على البطاقة</label>
+                                                <input type="text" id="card-name" class="form-control" placeholder="الاسم كما يظهر على البطاقة">
+                                            </div>
+                                        </div>
+                                        <div class="form-col">
+                                            <div class="form-group">
+                                                <label for="card-expiry" class="form-label">تاريخ الانتهاء</label>
+                                                <input type="text" id="card-expiry" class="form-control" placeholder="MM/YY" maxlength="5">
+                                            </div>
+                                        </div>
+                                        <div class="form-col">
+                                            <div class="form-group">
+                                                <label for="card-cvv" class="form-label">رمز الأمان (CVV)</label>
+                                                <input type="text" id="card-cvv" class="form-control" placeholder="XXX" maxlength="4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div style="display: flex; align-items: flex-start; margin-bottom: 1rem;">
+                                    <input type="checkbox" id="terms-checkbox" style="margin-top: 0.25rem; margin-left: 0.5rem;">
+                                    <label for="terms-checkbox">
+                                        أوافق على <a href="terms.html" target="_blank">شروط وأحكام</a> الحجز وسياسة الإلغاء.
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="booking-actions">
+                                <button class="btn btn-outline" onclick="goToStep(2)">رجوع</button>
+                                <button class="btn btn-primary" onclick="goToStep(4)">مراجعة الحجز</button>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-sidebar">
+                            <div class="booking-price-summary">
+                                <h3 class="price-summary-title">ملخص الحجز</h3>
+                                <div class="price-summary-list">
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">تاريخ الوصول</span>
+                                        <span id="summary-check-in-3">25 مايو 2025</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">تاريخ المغادرة</span>
+                                        <span id="summary-check-out-3">26 مايو 2025</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">عدد الليالي</span>
+                                        <span id="summary-nights-3">1</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">عدد الضيوف</span>
+                                        <span id="summary-guests-3">2 بالغين، 0 أطفال</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">نوع الغرفة</span>
+                                        <span id="summary-room-type-3">غرفة قياسية</span>
+                                    </div>
+                                </div>
+                                <div class="price-summary-list">
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">سعر الغرفة</span>
+                                        <span id="summary-room-price-3">SAR 750</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">ضريبة القيمة المضافة (15%)</span>
+                                        <span id="summary-tax-3">SAR 112.50</span>
+                                    </div>
+                                </div>
+                                <div class="price-summary-total">
+                                    <span>الإجمالي</span>
+                                    <span id="summary-total-3">SAR 862.50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- الخطوة 4: المراجعة -->
+                <div class="booking-content" id="step-4-content" style="display: none;">
+                    <h2 class="booking-title">مراجعة الحجز</h2>
+                    
+                    <div class="booking-summary">
+                        <div class="booking-details">
+                            <div class="hotel-card-horizontal">
+                                <img src="images/hotels/hotel1-placeholder.jpg" alt="فندق القصر" class="hotel-image-small">
+                                <div class="hotel-info-small">
+                                    <h3 class="hotel-name-small">فندق القصر</h3>
+                                    <div class="hotel-location-small">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>صنعاء، شارع الزبيري</span>
+                                    </div>
+                                    <div class="hotel-rating-small">
+                                        <div class="rating-stars-small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span>5 نجوم</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h3>تفاصيل الحجز</h3>
+                            <table class="booking-details-table">
+                                <tr>
+                                    <th>تاريخ الوصول</th>
+                                    <td id="review-check-in">25 مايو 2025</td>
+                                </tr>
+                                <tr>
+                                    <th>تاريخ المغادرة</th>
+                                    <td id="review-check-out">26 مايو 2025</td>
+                                </tr>
+                                <tr>
+                                    <th>عدد الليالي</th>
+                                    <td id="review-nights">1</td>
+                                </tr>
+                                <tr>
+                                    <th>عدد الضيوف</th>
+                                    <td id="review-guests">2 بالغين، 0 أطفال</td>
+                                </tr>
+                                <tr>
+                                    <th>نوع الغرفة</th>
+                                    <td id="review-room-type">غرفة قياسية</td>
+                                </tr>
+                                <tr>
+                                    <th>وقت الوصول التقريبي</th>
+                                    <td id="review-arrival-time">14:00 - 16:00</td>
+                                </tr>
+                                <tr>
+                                    <th>طلبات خاصة</th>
+                                    <td id="review-special-requests">لا يوجد</td>
+                                </tr>
+                            </table>
+                            
+                            <h3>معلومات الضيف</h3>
+                            <table class="booking-details-table">
+                                <tr>
+                                    <th>الاسم</th>
+                                    <td id="review-guest-name">أحمد محمد</td>
+                                </tr>
+                                <tr>
+                                    <th>البريد الإلكتروني</th>
+                                    <td id="review-guest-email">ahmed@example.com</td>
+                                </tr>
+                                <tr>
+                                    <th>رقم الهاتف</th>
+                                    <td id="review-guest-phone">+967 123 456 789</td>
+                                </tr>
+                                <tr>
+                                    <th>الجنسية</th>
+                                    <td id="review-guest-nationality">يمني</td>
+                                </tr>
+                            </table>
+                            
+                            <h3>طريقة الدفع</h3>
+                            <table class="booking-details-table">
+                                <tr>
+                                    <th>طريقة الدفع</th>
+                                    <td id="review-payment-method">بطاقة ائتمان</td>
+                                </tr>
+                                <tr>
+                                    <th>المبلغ الإجمالي</th>
+                                    <td id="review-total-amount">SAR 862.50</td>
+                                </tr>
+                            </table>
+                            
+                            <div class="booking-actions">
+                                <button class="btn btn-outline" onclick="goToStep(3)">رجوع</button>
+                                <button class="btn btn-primary" onclick="goToStep(5)">تأكيد الحجز</button>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-sidebar">
+                            <div class="booking-price-summary">
+                                <h3 class="price-summary-title">ملخص الحجز</h3>
+                                <div class="price-summary-list">
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">تاريخ الوصول</span>
+                                        <span id="summary-check-in-4">25 مايو 2025</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">تاريخ المغادرة</span>
+                                        <span id="summary-check-out-4">26 مايو 2025</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">عدد الليالي</span>
+                                        <span id="summary-nights-4">1</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">عدد الضيوف</span>
+                                        <span id="summary-guests-4">2 بالغين، 0 أطفال</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">نوع الغرفة</span>
+                                        <span id="summary-room-type-4">غرفة قياسية</span>
+                                    </div>
+                                </div>
+                                <div class="price-summary-list">
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">سعر الغرفة</span>
+                                        <span id="summary-room-price-4">SAR 750</span>
+                                    </div>
+                                    <div class="price-summary-item">
+                                        <span class="price-summary-item-label">ضريبة القيمة المضافة (15%)</span>
+                                        <span id="summary-tax-4">SAR 112.50</span>
+                                    </div>
+                                </div>
+                                <div class="price-summary-total">
+                                    <span>الإجمالي</span>
+                                    <span id="summary-total-4">SAR 862.50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- الخطوة 5: التأكيد -->
+                <div class="booking-content" id="step-5-content" style="display: none;">
+                    <div class="booking-confirmation">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2 class="confirmation-title">تم تأكيد الحجز بنجاح!</h2>
+                        <p class="confirmation-message">
+                            تم إرسال تفاصيل الحجز إلى بريدك الإلكتروني. يمكنك أيضًا الاطلاع على تفاصيل الحجز في صفحة "حجوزاتي".
+                        </p>
+                        <div class="booking-details-table" style="max-width: 600px; margin: 0 auto;">
+                            <table>
+                                <tr>
+                                    <th>رقم الحجز</th>
+                                    <td id="confirmation-booking-id">BK12345678</td>
+                                </tr>
+                                <tr>
+                                    <th>الفندق</th>
+                                    <td>فندق القصر</td>
+                                </tr>
+                                <tr>
+                                    <th>تاريخ الوصول</th>
+                                    <td id="confirmation-check-in">25 مايو 2025</td>
+                                </tr>
+                                <tr>
+                                    <th>تاريخ المغادرة</th>
+                                    <td id="confirmation-check-out">26 مايو 2025</td>
+                                </tr>
+                                <tr>
+                                    <th>نوع الغرفة</th>
+                                    <td id="confirmation-room-type">غرفة قياسية</td>
+                                </tr>
+                                <tr>
+                                    <th>المبلغ الإجمالي</th>
+                                    <td id="confirmation-total">SAR 862.50</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div style="margin-top: 2rem;">
+                            <a href="bookings.html" class="btn btn-primary">عرض حجوزاتي</a>
+                            <a href="index.html" class="btn btn-outline" style="margin-right: 1rem;">العودة للرئيسية</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo-placeholder.png" alt="محجوز" id="footer-logo">
+                        <span id="footer-app-name">محجوز</span>
+                    </div>
+                    <p>منصة حجز الفنادق الأولى في اليمن. نوفر لك أفضل الفنادق بأفضل الأسعار مع خدمة عملاء متميزة.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="search.html">البحث</a></li>
+                        <li><a href="about.html">عن التطبيق</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>المدن</h3>
+                    <ul class="footer-links">
+                        <li><a href="search.html?city=صنعاء">فنادق صنعاء</a></li>
+                        <li><a href="search.html?city=عدن">فنادق عدن</a></li>
+                        <li><a href="search.html?city=تعز">فنادق تعز</a></li>
+                        <li><a href="search.html?city=الحديدة">فنادق الحديدة</a></li>
+                        <li><a href="search.html?city=المكلا">فنادق المكلا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>اتصل بنا</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> <span id="contact-address">صنعاء، اليمن</span></li>
+                        <li><i class="fas fa-phone"></i> <span id="contact-phone">+967 123 456 789</span></li>
+                        <li><i class="fas fa-envelope"></i> <span id="contact-email">info@mahjooz.com</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2025</span> محجوز. جميع الحقوق محفوظة.</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">سياسة الخصوصية</a>
+                    <a href="terms.html">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/firebase-init.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/admin-login.js"></script>
+    
+    <script>
+        // بيانات الغرف
+        const roomData = {
+            standard: {
+                name: 'غرفة قياسية',
+                price: 750,
+                capacity: 2,
+                bedType: 'سرير مزدوج',
+                features: ['wifi', 'ac', 'tv']
+            },
+            deluxe: {
+                name: 'غرفة ديلوكس',
+                price: 950,
+                capacity: 2,
+                bedType: 'سرير كينج',
+                features: ['wifi', 'ac', 'tv', 'bath']
+            },
+            suite: {
+                name: 'جناح',
+                price: 1500,
+                capacity: 3,
+                bedType: 'سرير كينج',
+                features: ['wifi', 'ac', 'tv', 'bath', 'living']
+            }
+        };
+        
+        // بيانات الحجز
+        let bookingData = {
+            hotelId: '1',
+            hotelName: 'فندق القصر',
+            checkIn: '2025-05-25',
+            checkOut: '2025-05-26',
+            nights: 1,
+            guests: {
+                adults: 2,
+                children: 0
+            },
+            roomType: '',
+            roomPrice: 0,
+            tax: 0,
+            total: 0,
+            guestInfo: {
+                name: '',
+                email: '',
+                phone: '',
+                nationality: ''
+            },
+            arrivalTime: '',
+            specialRequests: '',
+            paymentMethod: 'credit-card'
+        };
+        
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            // تحميل بيانات الحجز من URL
+            loadBookingDataFromUrl();
+            
+            // تهيئة طرق الدفع
+            setupPaymentMethods();
+            
+            // تهيئة حقول البطاقة
+            setupCardFields();
+            
+            // تحديث السنة الحالية
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // التحقق من تسجيل الدخول
+            checkAuthStatus();
+        });
+        
+        // تحميل بيانات الحجز من URL
+        function loadBookingDataFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // تحميل معرف الفندق
+            const hotelId = urlParams.get('hotelId') || '1';
+            bookingData.hotelId = hotelId;
+            
+            // تحميل نوع الغرفة
+            const roomType = urlParams.get('roomType') || '';
+            if (roomType && roomData[roomType]) {
+                selectRoom(roomType, false);
+            }
+            
+            // تحميل تواريخ الوصول والمغادرة
+            const checkIn = urlParams.get('checkIn');
+            const checkOut = urlParams.get('checkOut');
+            
+            if (checkIn && checkOut) {
+                bookingData.checkIn = checkIn;
+                bookingData.checkOut = checkOut;
+                
+                // حساب عدد الليالي
+                const checkInDate = new Date(checkIn);
+                const checkOutDate = new Date(checkOut);
+                const nights = Math.round((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+                
+                bookingData.nights = nights > 0 ? nights : 1;
+                
+                // تحديث عرض التواريخ
+                updateDateDisplay();
+            }
+            
+            // تحميل عدد الضيوف
+            const adults = urlParams.get('adults');
+            const children = urlParams.get('children');
+            
+            if (adults) {
+                bookingData.guests.adults = parseInt(adults);
+            }
+            
+            if (children) {
+                bookingData.guests.children = parseInt(children);
+            }
+            
+            // تحديث عرض الضيوف
+            updateGuestsDisplay();
+        }
+        
+        // تحديث عرض التواريخ
+        function updateDateDisplay() {
+            // تنسيق التواريخ
+            const checkInDate = new Date(bookingData.checkIn);
+            const checkOutDate = new Date(bookingData.checkOut);
+            
+            const formatDate = (date) => {
+                return date.toLocaleDateString('ar-SA', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            };
+            
+            const checkInFormatted = formatDate(checkInDate);
+            const checkOutFormatted = formatDate(checkOutDate);
+            
+            // تحديث عرض التواريخ في جميع الخطوات
+            document.getElementById('check-in-display').textContent = checkInFormatted;
+            document.getElementById('check-out-display').textContent = checkOutFormatted;
+            document.getElementById('check-in-display-2').textContent = checkInFormatted;
+            document.getElementById('check-out-display-2').textContent = checkOutFormatted;
+            
+            document.getElementById('summary-check-in').textContent = checkInFormatted;
+            document.getElementById('summary-check-out').textContent = checkOutFormatted;
+            document.getElementById('summary-check-in-2').textContent = checkInFormatted;
+            document.getElementById('summary-check-out-2').textContent = checkOutFormatted;
+            document.getElementById('summary-check-in-3').textContent = checkInFormatted;
+            document.getElementById('summary-check-out-3').textContent = checkOutFormatted;
+            document.getElementById('summary-check-in-4').textContent = checkInFormatted;
+            document.getElementById('summary-check-out-4').textContent = checkOutFormatted;
+            
+            document.getElementById('summary-nights').textContent = bookingData.nights;
+            document.getElementById('summary-nights-2').textContent = bookingData.nights;
+            document.getElementById('summary-nights-3').textContent = bookingData.nights;
+            document.getElementById('summary-nights-4').textContent = bookingData.nights;
+            
+            document.getElementById('review-check-in').textContent = checkInFormatted;
+            document.getElementById('review-check-out').textContent = checkOutFormatted;
+            document.getElementById('review-nights').textContent = bookingData.nights;
+            
+            document.getElementById('confirmation-check-in').textContent = checkInFormatted;
+            document.getElementById('confirmation-check-out').textContent = checkOutFormatted;
+        }
+        
+        // تحديث عرض الضيوف
+        function updateGuestsDisplay() {
+            const adults = bookingData.guests.adults;
+            const children = bookingData.guests.children;
+            
+            const adultsText = adults === 1 ? 'بالغ' : 'بالغين';
+            const childrenText = children === 1 ? 'طفل' : 'أطفال';
+            
+            const guestsText = `${adults} ${adultsText}${children > 0 ? `، ${children} ${childrenText}` : ''}`;
+            
+            document.getElementById('summary-guests').textContent = guestsText;
+            document.getElementById('summary-guests-2').textContent = guestsText;
+            document.getElementById('summary-guests-3').textContent = guestsText;
+            document.getElementById('summary-guests-4').textContent = guestsText;
+            
+            document.getElementById('review-guests').textContent = guestsText;
+        }
+        
+        // اختيار الغرفة
+        function selectRoom(roomType, navigate = true) {
+            if (!roomData[roomType]) return;
+            
+            const room = roomData[roomType];
+            
+            // تحديث بيانات الحجز
+            bookingData.roomType = roomType;
+            bookingData.roomPrice = room.price * bookingData.nights;
+            bookingData.tax = bookingData.roomPrice * 0.15;
+            bookingData.total = bookingData.roomPrice + bookingData.tax;
+            
+            // تحديث عرض الغرفة المختارة
+            const selectedRoomCard = document.getElementById('selected-room-card');
+            if (selectedRoomCard) {
+                // إنشاء قائمة المميزات
+                let featuresHTML = '';
+                
+                const featureIcons = {
+                    bed: 'bed',
+                    wifi: 'wifi',
+                    ac: 'snowflake',
+                    tv: 'tv',
+                    bath: 'bath',
+                    living: 'couch'
+                };
+                
+                const featureLabels = {
+                    bed: room.bedType || 'سرير',
+                    wifi: 'واي فاي مجاني',
+                    ac: 'تكييف',
+                    tv: 'تلفزيون',
+                    bath: 'جاكوزي',
+                    living: 'غرفة معيشة'
+                };
+                
+                room.features.forEach(feature => {
+                    featuresHTML += `
+                        <div class="room-info-item">
+                            <i class="fas fa-${featureIcons[feature] || 'check'}"></i>
+                            <span>${featureLabels[feature] || feature}</span>
+                        </div>
+                    `;
+                });
+                
+                selectedRoomCard.innerHTML = `
+                    <div class="room-header">
+                        <div class="room-name-small">${room.name}</div>
+                        <div class="room-price-small">SAR ${room.price.toFixed(2)} / ليلة</div>
+                    </div>
+                    <div class="room-info-small">
+                        <div class="room-info-item">
+                            <i class="fas fa-bed"></i>
+                            <span>${room.bedType}</span>
+                        </div>
+                        <div class="room-info-item">
+                            <i class="fas fa-user"></i>
+                            <span>${room.capacity} ${room.capacity === 1 ? 'شخص' : (room.capacity === 2 ? 'شخصان' : 'أشخاص')}</span>
+                        </div>
+                        ${featuresHTML}
+                    </div>
+                `;
+            }
+            
+            // تحديث ملخص الأسعار
+            updatePriceSummary();
+            
+            // تحديث عرض نوع الغرفة
+            document.getElementById('summary-room-type-2').textContent = room.name;
+            document.getElementById('summary-room-type-3').textContent = room.name;
+            document.getElementById('summary-room-type-4').textContent = room.name;
+            document.getElementById('review-room-type').textContent = room.name;
+            document.getElementById('confirmation-room-type').textContent = room.name;
+            
+            // الانتقال إلى الخطوة التالية
+            if (navigate) {
+                goToStep(2);
+            }
+        }
+        
+        // تحديث ملخص الأسعار
+        function updatePriceSummary() {
+            // تنسيق الأسعار
+            const formatPrice = (price) => {
+                return `SAR ${price.toFixed(2)}`;
+            };
+            
+            // تحديث عرض الأسعار
+            document.getElementById('summary-room-price').textContent = formatPrice(bookingData.roomPrice);
+            document.getElementById('summary-tax').textContent = formatPrice(bookingData.tax);
+            document.getElementById('summary-total').textContent = formatPrice(bookingData.total);
+            
+            document.getElementById('summary-room-price-2').textContent = formatPrice(bookingData.roomPrice);
+            document.getElementById('summary-tax-2').textContent = formatPrice(bookingData.tax);
+            document.getElementById('summary-total-2').textContent = formatPrice(bookingData.total);
+            
+            document.getElementById('summary-room-price-3').textContent = formatPrice(bookingData.roomPrice);
+            document.getElementById('summary-tax-3').textContent = formatPrice(bookingData.tax);
+            document.getElementById('summary-total-3').textContent = formatPrice(bookingData.total);
+            
+            document.getElementById('summary-room-price-4').textContent = formatPrice(bookingData.roomPrice);
+            document.getElementById('summary-tax-4').textContent = formatPrice(bookingData.tax);
+            document.getElementById('summary-total-4').textContent = formatPrice(bookingData.total);
+            
+            document.getElementById('review-total-amount').textContent = formatPrice(bookingData.total);
+            document.getElementById('confirmation-total').textContent = formatPrice(bookingData.total);
+        }
+        
+        // تهيئة طرق الدفع
+        function setupPaymentMethods() {
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const creditCardForm = document.getElementById('credit-card-form');
+            
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', () => {
+                    // إزالة الفئة النشطة من جميع طرق الدفع
+                    paymentMethods.forEach(m => m.classList.remove('active'));
+                    
+                    // إضافة الفئة النشطة للطريقة المختارة
+                    method.classList.add('active');
+                    
+                    // تحديد زر الراديو
+                    const radio = method.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    
+                    // تحديث طريقة الدفع في بيانات الحجز
+                    bookingData.paymentMethod = method.getAttribute('data-method');
+                    
+                    // إظهار/إخفاء نموذج بطاقة الائتمان
+                    if (creditCardForm) {
+                        creditCardForm.classList.toggle('active', bookingData.paymentMethod === 'credit-card');
+                    }
+                    
+                    // تحديث عرض طريقة الدفع في المراجعة
+                    updatePaymentMethodDisplay();
+                });
+            });
+        }
+        
+        // تحديث عرض طريقة الدفع
+        function updatePaymentMethodDisplay() {
+            const paymentMethodElement = document.getElementById('review-payment-method');
+            
+            if (paymentMethodElement) {
+                let methodText = '';
+                
+                switch (bookingData.paymentMethod) {
+                    case 'credit-card':
+                        methodText = 'بطاقة ائتمان';
+                        break;
+                    case 'apple-pay':
+                        methodText = 'Apple Pay';
+                        break;
+                    case 'pay-at-hotel':
+                        methodText = 'الدفع في الفندق';
+                        break;
+                    default:
+                        methodText = 'بطاقة ائتمان';
+                }
+                
+                paymentMethodElement.textContent = methodText;
+            }
+        }
+        
+        // تهيئة حقول البطاقة
+        function setupCardFields() {
+            const cardNumber = document.getElementById('card-number');
+            const cardExpiry = document.getElementById('card-expiry');
+            const cardCvv = document.getElementById('card-cvv');
+            
+            // تنسيق رقم البطاقة
+            if (cardNumber) {
+                cardNumber.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    let formattedValue = '';
+                    
+                    for (let i = 0; i < value.length; i++) {
+                        if (i > 0 && i % 4 === 0) {
+                            formattedValue += ' ';
+                        }
+                        formattedValue += value[i];
+                    }
+                    
+                    e.target.value = formattedValue;
+                });
+            }
+            
+            // تنسيق تاريخ الانتهاء
+            if (cardExpiry) {
+                cardExpiry.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    
+                    if (value.length > 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    
+                    e.target.value = value;
+                });
+            }
+            
+            // تنسيق رمز الأمان
+            if (cardCvv) {
+                cardCvv.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                });
+            }
+        }
+        
+        // الانتقال إلى خطوة معينة
+        function goToStep(step) {
+            // التحقق من صحة البيانات قبل الانتقال
+            if (!validateStep(step - 1)) {
+                return;
+            }
+            
+            // إخفاء جميع الخطوات
+            const stepContents = document.querySelectorAll('[id^="step-"][id$="-content"]');
+            stepContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // إظهار الخطوة المطلوبة
+            const currentStepContent = document.getElementById(`step-${step}-content`);
+            if (currentStepContent) {
+                currentStepContent.style.display = 'block';
+            }
+            
+            // تحديث حالة الخطوات
+            updateStepsStatus(step);
+            
+            // تحديث بيانات المراجعة إذا كانت الخطوة هي المراجعة
+            if (step === 4) {
+                updateReviewData();
+            }
+            
+            // إنشاء رقم الحجز إذا كانت الخطوة هي التأكيد
+            if (step === 5) {
+                generateBookingId();
+            }
+            
+            // التمرير إلى أعلى الصفحة
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // التحقق من صحة البيانات قبل الانتقال
+        function validateStep(currentStep) {
+            switch (currentStep) {
+                case 1:
+                    // التحقق من اختيار غرفة
+                    if (!bookingData.roomType) {
+                        alert('يرجى اختيار غرفة للمتابعة.');
+                        return false;
+                    }
+                    break;
+                    
+                case 2:
+                    // التحقق من معلومات الضيف
+                    const guestName = document.getElementById('guest-name').value;
+                    const guestEmail = document.getElementById('guest-email').value;
+                    const guestPhone = document.getElementById('guest-phone').value;
+                    const guestNationality = document.getElementById('guest-nationality').value;
+                    
+                    if (!guestName || !guestEmail || !guestPhone || !guestNationality) {
+                        alert('يرجى إكمال جميع معلومات الضيف المطلوبة.');
+                        return false;
+                    }
+                    
+                    // تحديث بيانات الضيف
+                    bookingData.guestInfo.name = guestName;
+                    bookingData.guestInfo.email = guestEmail;
+                    bookingData.guestInfo.phone = guestPhone;
+                    bookingData.guestInfo.nationality = guestNationality;
+                    
+                    // تحديث وقت الوصول والطلبات الخاصة
+                    bookingData.arrivalTime = document.getElementById('arrival-time').value;
+                    bookingData.specialRequests = document.getElementById('special-requests').value;
+                    break;
+                    
+                case 3:
+                    // التحقق من طريقة الدفع
+                    if (bookingData.paymentMethod === 'credit-card') {
+                        const cardNumber = document.getElementById('card-number').value;
+                        const cardName = document.getElementById('card-name').value;
+                        const cardExpiry = document.getElementById('card-expiry').value;
+                        const cardCvv = document.getElementById('card-cvv').value;
+                        
+                        if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
+                            alert('يرجى إكمال جميع معلومات البطاقة المطلوبة.');
+                            return false;
+                        }
+                    }
+                    
+                    // التحقق من الموافقة على الشروط
+                    const termsCheckbox = document.getElementById('terms-checkbox');
+                    if (!termsCheckbox.checked) {
+                        alert('يرجى الموافقة على شروط وأحكام الحجز للمتابعة.');
+                        return false;
+                    }
+                    break;
+                    
+                case 4:
+                    // لا يوجد تحقق في هذه الخطوة
+                    break;
+            }
+            
+            return true;
+        }
+        
+        // تحديث حالة الخطوات
+        function updateStepsStatus(currentStep) {
+            const steps = document.querySelectorAll('[id^="step-"]:not([id$="-content"])');
+            
+            steps.forEach((step, index) => {
+                const stepNumber = index + 1;
+                
+                // إزالة جميع الفئات
+                step.classList.remove('active', 'completed');
+                
+                // إضافة الفئة المناسبة
+                if (stepNumber === currentStep) {
+                    step.classList.add('active');
+                } else if (stepNumber < currentStep) {
+                    step.classList.add('completed');
+                }
+            });
+        }
+        
+        // تحديث بيانات المراجعة
+        function updateReviewData() {
+            // تحديث معلومات الضيف
+            document.getElementById('review-guest-name').textContent = bookingData.guestInfo.name;
+            document.getElementById('review-guest-email').textContent = bookingData.guestInfo.email;
+            document.getElementById('review-guest-phone').textContent = bookingData.guestInfo.phone;
+            
+            // تحديث الجنسية
+            const nationalitySelect = document.getElementById('guest-nationality');
+            const nationalityText = nationalitySelect.options[nationalitySelect.selectedIndex].text;
+            document.getElementById('review-guest-nationality').textContent = nationalityText;
+            
+            // تحديث وقت الوصول
+            const arrivalTimeSelect = document.getElementById('arrival-time');
+            const arrivalTimeText = arrivalTimeSelect.value ? arrivalTimeSelect.options[arrivalTimeSelect.selectedIndex].text : 'غير محدد';
+            document.getElementById('review-arrival-time').textContent = arrivalTimeText;
+            
+            // تحديث الطلبات الخاصة
+            const specialRequests = bookingData.specialRequests || 'لا يوجد';
+            document.getElementById('review-special-requests').textContent = specialRequests;
+        }
+        
+        // إنشاء رقم الحجز
+        function generateBookingId() {
+            // إنشاء رقم حجز عشوائي
+            const randomPart = Math.floor(Math.random() * 10000000).toString().padStart(7, '0');
+            const bookingId = `BK${randomPart}`;
+            
+            // تحديث رقم الحجز في صفحة التأكيد
+            document.getElementById('confirmation-booking-id').textContent = bookingId;
+            
+            // حفظ الحجز في قاعدة البيانات
+            saveBooking(bookingId);
+        }
+        
+        // حفظ الحجز في قاعدة البيانات
+        function saveBooking(bookingId) {
+            // هنا يتم حفظ الحجز في قاعدة البيانات
+            // في هذا المثال، نقوم فقط بطباعة البيانات في وحدة التحكم
+            console.log('تم حفظ الحجز:', {
+                bookingId,
+                ...bookingData
+            });
+        }
+        
+        // التحقق من حالة تسجيل الدخول
+        function checkAuthStatus() {
+            // التحقق مما إذا كان المستخدم مسجل الدخول
+            const isLoggedIn = isUserLoggedIn();
+            
+            if (!isLoggedIn) {
+                // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+                window.location.href = `login.html?redirect=booking.html${window.location.search}`;
+            }
+        }
+        
+        // التحقق مما إذا كان المستخدم مسجل الدخول
+        function isUserLoggedIn() {
+            // في هذا المثال، نفترض أن المستخدم مسجل الدخول
+            return true;
+        }
+    </script>
+</body>
+</html>

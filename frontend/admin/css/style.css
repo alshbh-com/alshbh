@@ -1,0 +1,347 @@
+/* 
+ * الأنماط الرئيسية للوحة تحكم الإدارة
+ * تصميم مستوحى من Material Design ليشبه تطبيقات Flutter
+ */
+
+:root {
+  --primary-color: #2196F3; /* أزرق فاتح */
+  --primary-dark: #1976D2;
+  --primary-light: #BBDEFB;
+  --accent-color: #FF4081; /* وردي */
+  --text-color: #212121;
+  --text-secondary: #757575;
+  --divider-color: #BDBDBD;
+  --background-color: #F5F5F5;
+  --card-color: #FFFFFF;
+  --success-color: #4CAF50;
+  --warning-color: #FFC107;
+  --error-color: #F44336;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  direction: rtl;
+}
+
+/* تنسيق الرأس */
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* تنسيق قسم المصادقة */
+#admin-auth-section {
+  display: flex;
+  align-items: center;
+}
+
+#admin-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* تنسيق الأزرار */
+button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+button:hover {
+  background-color: #E91E63;
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* تنسيق النافذة المنبثقة */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--card-color);
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 10px var(--shadow-color);
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* تنسيق النموذج */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+label {
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+input, select, textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--divider-color);
+  border-radius: 4px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 0.9rem;
+}
+
+/* تنسيق القائمة الجانبية */
+nav {
+  background-color: var(--card-color);
+  width: 250px;
+  position: fixed;
+  top: 70px;
+  right: 0;
+  height: calc(100vh - 70px);
+  box-shadow: -2px 0 5px var(--shadow-color);
+  overflow-y: auto;
+}
+
+nav ul {
+  list-style: none;
+  padding: 1rem 0;
+}
+
+nav li {
+  margin-bottom: 0.5rem;
+}
+
+nav a {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: background-color 0.3s;
+  border-right: 3px solid transparent;
+}
+
+nav a:hover {
+  background-color: var(--primary-light);
+}
+
+nav a.active {
+  background-color: var(--primary-light);
+  border-right-color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* تنسيق المحتوى الرئيسي */
+main {
+  margin-right: 250px;
+  padding: 2rem;
+}
+
+.page {
+  display: none;
+}
+
+.active-page {
+  display: block;
+}
+
+section h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-dark);
+  border-bottom: 2px solid var(--primary-light);
+  padding-bottom: 0.5rem;
+}
+
+/* تنسيق البطاقات */
+.card {
+  background-color: var(--card-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px var(--shadow-color);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+/* تنسيق الجداول */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--card-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+th, td {
+  padding: 1rem;
+  text-align: right;
+  border-bottom: 1px solid var(--divider-color);
+}
+
+th {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover {
+  background-color: rgba(187, 222, 251, 0.3);
+}
+
+/* تنسيق التذييل */
+footer {
+  background-color: var(--primary-dark);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  margin-right: 250px;
+}
+
+/* تنسيق متجاوب */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  nav {
+    width: 100%;
+    position: static;
+    height: auto;
+    box-shadow: none;
+  }
+  
+  main, footer {
+    margin-right: 0;
+  }
+  
+  .modal-content {
+    width: 95%;
+  }
+}
+
+/* تأثيرات حركية مستوحاة من Flutter */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1s;
+}
+
+.ripple:active:after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+/* تنسيق لوحة القيادة */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background-color: var(--card-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px var(--shadow-color);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-card .number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0.5rem 0;
+}
+
+.stat-card .label {
+  color: var(--text-secondary);
+}

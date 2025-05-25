@@ -1,0 +1,427 @@
+{
+  "app": {
+    "name": "Mahjooz",
+    "slogan": "The premier hotel booking platform in Yemen"
+  },
+  "nav": {
+    "home": "Home",
+    "search": "Search",
+    "about": "About",
+    "contact": "Contact Us",
+    "login": "Login",
+    "register": "Register",
+    "profile": "My Profile",
+    "bookings": "My Bookings",
+    "favorites": "Favorites",
+    "logout": "Logout",
+    "admin": "Admin Panel"
+  },
+  "home": {
+    "hero": {
+      "title": "Book your favorite hotel in Yemen",
+      "subtitle": "More than 500 hotels across various Yemeni cities",
+      "search_placeholder": "Search for a hotel or city...",
+      "search_button": "Search"
+    },
+    "search_form": {
+      "destination": "Destination",
+      "destination_placeholder": "City or hotel name",
+      "check_in": "Check-in",
+      "check_out": "Check-out",
+      "guests": "Guests",
+      "adults": "Adults",
+      "children": "Children",
+      "search_button": "Search Hotels"
+    },
+    "popular_cities": {
+      "title": "Popular Cities",
+      "view_all": "View All"
+    },
+    "featured_hotels": {
+      "title": "Featured Hotels",
+      "view_all": "View All"
+    },
+    "special_offers": {
+      "title": "Special Offers",
+      "view_all": "View All"
+    },
+    "why_choose": {
+      "title": "Why Choose Mahjooz?",
+      "reason1_title": "Best Prices",
+      "reason1_text": "We guarantee the best prices for all hotels",
+      "reason2_title": "Secure Booking",
+      "reason2_text": "Safe and easy booking process with instant confirmation",
+      "reason3_title": "24/7 Support",
+      "reason3_text": "Support team available 24/7 to assist you",
+      "reason4_title": "Real Reviews",
+      "reason4_text": "Ratings and reviews from real guests"
+    },
+    "app_download": {
+      "title": "Get the Mahjooz App",
+      "subtitle": "Book your favorite hotel anytime, anywhere",
+      "android": "Download for Android",
+      "ios": "Download for iPhone"
+    }
+  },
+  "search": {
+    "title": "Search Results",
+    "filters": {
+      "title": "Filters",
+      "price": "Price",
+      "price_range": "Price Range",
+      "hotel_class": "Hotel Class",
+      "stars": "Stars",
+      "amenities": "Amenities",
+      "property_type": "Property Type",
+      "guest_rating": "Guest Rating",
+      "location": "Location",
+      "clear_all": "Clear All",
+      "apply": "Apply"
+    },
+    "sort": {
+      "title": "Sort By",
+      "recommended": "Recommended",
+      "price_low": "Price (Low to High)",
+      "price_high": "Price (High to Low)",
+      "rating": "Rating",
+      "distance": "Distance from Center"
+    },
+    "results": {
+      "hotels_found": "{count} hotels found",
+      "no_results": "No results found matching your search",
+      "try_again": "Please adjust your search criteria and try again"
+    },
+    "map_view": "Map View",
+    "list_view": "List View"
+  },
+  "hotel": {
+    "gallery": "Gallery",
+    "view_all_photos": "View All Photos",
+    "overview": "Overview",
+    "rooms": "Rooms",
+    "location": "Location",
+    "reviews": "Reviews",
+    "policies": "Policies",
+    "amenities": {
+      "title": "Amenities",
+      "view_all": "View All",
+      "wifi": "Free WiFi",
+      "parking": "Parking",
+      "breakfast": "Breakfast",
+      "pool": "Swimming Pool",
+      "fitness": "Fitness Center",
+      "spa": "Spa",
+      "restaurant": "Restaurant",
+      "room_service": "Room Service",
+      "air_conditioning": "Air Conditioning",
+      "elevator": "Elevator",
+      "reception": "24-hour Reception"
+    },
+    "room_list": {
+      "select": "Select",
+      "per_night": "per night",
+      "includes_taxes": "includes taxes",
+      "free_cancellation": "Free Cancellation",
+      "breakfast_included": "Breakfast Included",
+      "sleeps": "Sleeps",
+      "bed_type": "Bed Type",
+      "room_size": "Room Size",
+      "view_details": "View Details"
+    },
+    "reviews": {
+      "title": "Guest Reviews",
+      "overall_rating": "Overall Rating",
+      "based_on": "Based on {count} reviews",
+      "write_review": "Write a Review",
+      "all_reviews": "All Reviews",
+      "positive": "Positive",
+      "negative": "Negative",
+      "no_reviews": "No reviews for this hotel yet",
+      "be_first": "Be the first to review this hotel"
+    },
+    "location": {
+      "title": "Location",
+      "address": "Address",
+      "nearby_attractions": "Nearby Attractions",
+      "distance_from": "Distance From",
+      "city_center": "City Center",
+      "airport": "Airport",
+      "public_transport": "Public Transport"
+    },
+    "policies": {
+      "title": "Hotel Policies",
+      "check_in": "Check-in",
+      "check_out": "Check-out",
+      "cancellation": "Cancellation Policy",
+      "children": "Children Policy",
+      "pets": "Pet Policy",
+      "payment": "Payment Options"
+    },
+    "book_now": "Book Now"
+  },
+  "booking": {
+    "steps": {
+      "rooms": "Select Rooms",
+      "details": "Details",
+      "payment": "Payment",
+      "confirmation": "Confirmation"
+    },
+    "room_selection": {
+      "title": "Select Your Room",
+      "selected_rooms": "Selected Rooms",
+      "continue": "Continue"
+    },
+    "guest_details": {
+      "title": "Guest Details",
+      "contact_info": "Contact Information",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "special_requests": "Special Requests",
+      "special_requests_placeholder": "Any special requests for the hotel?",
+      "arrival_time": "Estimated Arrival Time",
+      "continue": "Continue"
+    },
+    "payment": {
+      "title": "Payment",
+      "summary": "Booking Summary",
+      "hotel": "Hotel",
+      "room_type": "Room Type",
+      "check_in": "Check-in",
+      "check_out": "Check-out",
+      "nights": "Nights",
+      "guests": "Guests",
+      "room_price": "Room Price",
+      "taxes": "Taxes & Fees",
+      "total": "Total",
+      "payment_method": "Payment Method",
+      "card_number": "Card Number",
+      "card_holder": "Card Holder Name",
+      "expiry_date": "Expiry Date",
+      "cvv": "CVV",
+      "pay_at_hotel": "Pay at Hotel",
+      "terms": "By clicking 'Confirm Booking', you agree to the Terms of Use and Privacy Policy",
+      "confirm": "Confirm Booking"
+    },
+    "confirmation": {
+      "title": "Booking Confirmed!",
+      "thank_you": "Thank you for booking with Mahjooz",
+      "booking_id": "Booking ID",
+      "confirmation_sent": "A booking confirmation has been sent to your email",
+      "booking_details": "Booking Details",
+      "view_booking": "View Booking",
+      "back_to_home": "Back to Home"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "personal_info": {
+      "title": "Personal Information",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "address": "Address",
+      "city": "City",
+      "country": "Country",
+      "update": "Update Information"
+    },
+    "account_settings": {
+      "title": "Account Settings",
+      "change_password": "Change Password",
+      "current_password": "Current Password",
+      "new_password": "New Password",
+      "confirm_password": "Confirm Password",
+      "update_password": "Update Password",
+      "language": "Language",
+      "currency": "Currency",
+      "notifications": "Notifications",
+      "email_notifications": "Email Notifications",
+      "sms_notifications": "SMS Notifications",
+      "save_changes": "Save Changes"
+    }
+  },
+  "bookings": {
+    "title": "My Bookings",
+    "filters": {
+      "all": "All",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "booking_card": {
+      "booking_id": "Booking ID",
+      "status": {
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "check_in": "Check-in",
+      "check_out": "Check-out",
+      "nights": "Nights",
+      "room_type": "Room Type",
+      "view_details": "View Details",
+      "cancel_booking": "Cancel Booking",
+      "add_review": "Add Review",
+      "book_again": "Book Again"
+    },
+    "details_modal": {
+      "title": "Booking Details",
+      "booking_date": "Booking Date",
+      "guests": "Guests",
+      "arrival_time": "Estimated Arrival Time",
+      "special_requests": "Special Requests",
+      "payment_method": "Payment Method",
+      "room_price": "Room Price",
+      "taxes": "Taxes & Fees",
+      "total": "Total",
+      "close": "Close"
+    },
+    "cancel_modal": {
+      "title": "Confirm Cancellation",
+      "message": "Are you sure you want to cancel this booking? Please note that the hotel's cancellation policy may apply.",
+      "cancel": "Cancel",
+      "confirm": "Confirm Cancellation"
+    },
+    "review_modal": {
+      "title": "Add Review for",
+      "overall_rating": "Overall Rating",
+      "title_label": "Review Title",
+      "title_placeholder": "A short title summarizing your experience",
+      "review_label": "Review Details",
+      "review_placeholder": "Write about your experience at the hotel...",
+      "service_ratings": "Service Ratings",
+      "cleanliness": "Cleanliness",
+      "comfort": "Comfort",
+      "location": "Location",
+      "service": "Service",
+      "cancel": "Cancel",
+      "submit": "Submit Review"
+    },
+    "no_bookings": {
+      "message": "No bookings in this category",
+      "search_hotels": "Search Hotels"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "remember_me": "Remember Me",
+      "forgot_password": "Forgot Password?",
+      "login_button": "Login",
+      "no_account": "Don't have an account?",
+      "register": "Create a new account",
+      "or": "Or",
+      "google": "Login with Google",
+      "facebook": "Login with Facebook"
+    },
+    "register": {
+      "title": "Create a New Account",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "terms": "By registering, you agree to the Terms of Use and Privacy Policy",
+      "register_button": "Create Account",
+      "have_account": "Already have an account?",
+      "login": "Login",
+      "or": "Or",
+      "google": "Register with Google",
+      "facebook": "Register with Facebook"
+    },
+    "forgot_password": {
+      "title": "Reset Password",
+      "email": "Email",
+      "submit": "Send Reset Link",
+      "back_to_login": "Back to Login"
+    }
+  },
+  "footer": {
+    "about": {
+      "title": "About Mahjooz",
+      "description": "The premier hotel booking platform in Yemen. We provide the best hotels at the best prices with excellent customer service."
+    },
+    "quick_links": {
+      "title": "Quick Links",
+      "home": "Home",
+      "search": "Search",
+      "about": "About",
+      "contact": "Contact Us",
+      "faq": "FAQ"
+    },
+    "cities": {
+      "title": "Cities",
+      "sanaa": "Sanaa Hotels",
+      "aden": "Aden Hotels",
+      "taiz": "Taiz Hotels",
+      "hodeidah": "Hodeidah Hotels",
+      "mukalla": "Mukalla Hotels"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "address": "Sanaa, Yemen",
+      "phone": "+967 123 456 789",
+      "email": "info@mahjooz.com"
+    },
+    "copyright": "All Rights Reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "try_again": "Try Again",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information",
+    "yes": "Yes",
+    "no": "No",
+    "more": "More",
+    "less": "Less",
+    "all": "All",
+    "none": "None",
+    "select": "Select",
+    "required": "Required",
+    "optional": "Optional",
+    "from": "From",
+    "to": "To",
+    "date": "Date",
+    "time": "Time",
+    "price": "Price",
+    "total": "Total",
+    "quantity": "Quantity",
+    "status": "Status",
+    "details": "Details",
+    "description": "Description",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "language": "Language",
+    "currency": "Currency",
+    "sar": "Saudi Riyal",
+    "yer": "Yemeni Rial",
+    "usd": "US Dollar"
+  }
+}
