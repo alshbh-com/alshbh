@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import '../main.dart';
 import 'home_screen.dart';
 
 class LocationCheckScreen extends StatefulWidget {
@@ -83,17 +82,6 @@ class _LocationCheckScreenState extends State<LocationCheckScreen> {
 
   Future<bool> _checkIfLocationSupported(Position position) async {
     try {
-      // فحص المناطق المدعومة من قاعدة البيانات
-      final response = await supabase
-          .from('areas')
-          .select('*');
-
-      if (response.isEmpty) {
-        // إذا لم توجد مناطق في قاعدة البيانات، نسمح بالدخول للاختبار
-        return true;
-      }
-
-      // هنا يمكن إضافة منطق فحص الموقع الجغرافي
       // للبساطة، سنسمح بالدخول إذا كان الموقع في مصر تقريباً
       double lat = position.latitude;
       double lon = position.longitude;
