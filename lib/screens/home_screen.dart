@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
+import 'package:talabatk_app/mock_data.dart';
 import 'cart_screen.dart';
 import 'settings_screen.dart';
 import 'category_screen.dart';
@@ -25,35 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadData() async {
-    try {
-      // تحميل الفئات الرئيسية
-      final categoriesResponse = await supabase
-          .from('main_categories')
-          .select('*')
-          .order('name');
-
-      // تحميل العروض
-      final offersResponse = await supabase
-          .from('offers')
-          .select('*, products(*)')
-          .gte('end_date', DateTime.now().toIso8601String())
-          .order('start_date', ascending: false);
-
-      setState(() {
-        _categories = categoriesResponse;
-        _offers = offersResponse;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ في تحميل البيانات: $e')),
-        );
-      }
-    }
+    // استخدام البيانات الوهمية بدلاً من Supabase
+    await Future.delayed(const Duration(seconds: 1)); // محاكاة وقت التحميل
+    setState(() {
+      _categories = mockCategories;
+      _offers = mockOffers;
+      _isLoading = false;
+    });
   }
 
   @override

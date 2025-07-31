@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
+import 'package:talabatk_app/mock_data.dart';
 import '../models/cart_item.dart';
 import '../services/cart_service.dart';
 
@@ -24,27 +24,12 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 
   Future<void> _loadProducts() async {
-    try {
-      final response = await supabase
-          .from('products')
-          .select('*, product_sizes(*)')
-          .eq('sub_category_id', widget.store['id'])
-          .order('name');
-
-      setState(() {
-        _products = response;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ في تحميل المنتجات: $e')),
-        );
-      }
-    }
+    // استخدام البيانات الوهمية بدلاً من Supabase
+    await Future.delayed(const Duration(seconds: 1)); // محاكاة وقت التحميل
+    setState(() {
+      _products = mockProducts.where((product) => product.storeId == widget.store["id"]).toList();
+      _isLoading = false;
+    });
   }
 
   @override

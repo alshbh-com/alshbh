@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
+import 'package:talabatk_app/mock_data.dart';
 import 'store_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -22,27 +22,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Future<void> _loadStores() async {
-    try {
-      final response = await supabase
-          .from('sub_categories_stores')
-          .select('*')
-          .eq('main_category_id', widget.category['id'])
-          .order('name');
-
-      setState(() {
-        _stores = response;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ في تحميل المتاجر: $e')),
-        );
-      }
-    }
+    // استخدام البيانات الوهمية بدلاً من Supabase
+    await Future.delayed(const Duration(seconds: 1)); // محاكاة وقت التحميل
+    setState(() {
+      _stores = mockStores.where((store) => store.categoryId == widget.category["id"]).toList();
+      _isLoading = false;
+    });
   }
 
   @override

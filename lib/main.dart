@@ -5,15 +5,16 @@ import 'screens/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(
-    url: 'https://jfusqoiczhzpaagchbnd.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmdXNxb2ljemh6cGFhZ2NoYm5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgxNjU0NzQsImV4cCI6MjA1Mzc0MTQ3NH0.sb_publishable_5hkDF0nlqbG2Qw_ib_S-Iw_OBwnhbes',
-  );
+  // تعطيل Supabase مؤقتاً لحل مشكلة الإغلاق
+  // await Supabase.initialize(
+  //   url: 'YOUR_SUPABASE_URL',
+  //   anonKey: 'YOUR_SUPABASE_ANON_KEY',
+  // );
   
   runApp(const TalabatkApp());
 }
 
-final supabase = Supabase.instance.client;
+// final supabase = Supabase.instance.client;
 
 class TalabatkApp extends StatelessWidget {
   const TalabatkApp({super.key});
